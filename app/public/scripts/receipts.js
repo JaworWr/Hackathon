@@ -48,16 +48,18 @@ var App = function (_React$Component) {
 }(React.Component);
 
 function ReceiptList(props) {
-    var elements = props.receipts.slice(-10).map(function (r) {
+    var elements = props.receipts.map(function (r) {
         return React.createElement(
             'div',
             null,
             React.createElement(
-                'p',
+                'h4',
                 null,
                 r.shop,
                 ' ',
-                r.Total
+                r.total,
+                ' ',
+                r.date
             ),
             React.createElement(
                 'div',
@@ -66,7 +68,9 @@ function ReceiptList(props) {
                     return React.createElement(
                         'div',
                         null,
-                        p.name
+                        p.name,
+                        ' ',
+                        p.price
                     );
                 })
             )

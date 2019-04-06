@@ -1,0 +1,63 @@
+<html>
+<head>
+<script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+</head>
+<body>
+    <div id="canvas-holder" style="width:40%">
+		<canvas id="chart-area" style="width:100px"></canvas>
+	</div>
+	<script>
+		var randomScalingFactor = function() {
+			return Math.round(Math.random() * 120 + 20);
+		};
+
+		var config = {
+			type: 'pie',
+			data: {
+				datasets: [{
+					data: [
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+						randomScalingFactor(),
+					],
+					backgroundColor: [
+						"rgb(255, 99, 132)",
+						"rgb(255, 159, 64)",
+						"rgb(255, 205, 86)",
+						"rgb(75, 192, 192)",
+						"rgb(54, 162, 235)"
+					],
+					label: 'Dataset 1'
+				}],
+				labels: [
+					'Red',
+					'Orange',
+					'Yellow',
+					'Green',
+					'Blue'
+				]
+			},
+			options: {
+                responsive: true,
+                // legend: false,
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                }
+			}
+		};
+
+		window.onload = function() {
+			var ctx = document.getElementById('chart-area').getContext('2d');
+			window.myPie = new Chart(ctx, config);
+		};
+
+	</script>
+</body>
+</html>

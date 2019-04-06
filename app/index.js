@@ -1,9 +1,7 @@
 const express = require("express");
-const http = require("http");
 const session = require("express-session");
 const morgan = require('morgan');
 const multer = require('multer');
-
 
 const app = express();
 
@@ -16,7 +14,7 @@ const storage = multer.diskStorage({
     }
 })
 
-var upload = multer({ dest: 'uploads/' });
+app.locals.upload = multer({ dest: 'uploads/' });
 
 app.set("view engine", "ejs");
 app.set('views', 'app/views');
@@ -29,16 +27,5 @@ require('./routes')(app);
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });
-
-app.get('/upload', (req, res) => {
-    res.render('upload.ejs');
-})
-
-
-app.post('/upload', upload.single('file'), function(req, res, next){
-    console.log(req.file)
-    res.end('ok')
-});
-
 
 app.listen(3000);

@@ -1,3 +1,5 @@
+const CATEGORIES = ['Food', 'Health', 'Clothing', 'Electronics', 'Entertainment', 'Travel']
+
 function loadReceipts(path) {
     let receipts = require(path);
     let products = {};
@@ -44,7 +46,7 @@ function total(receipts, cat) {
     }
     let {products} = receipts;
     for (p in products) {
-        if (products[p].category == cat) {
+        if (!cat || products[p].category == cat) {
             res.price += products[p].price;
             res.quantity += products[p].quantity;
         }
@@ -68,8 +70,8 @@ module.exports = function(app) {
             app.locals.receipts = loadReceipts('../receipts.json');
         }
         let receipts = app.locals.receipts;
-        let friendReceipts = loadReceipts('../friend_receipts.json');
-        let globalReceipts = loadReceipts('../global_receipts.json'); //boli.
+        let friendReceipts = loadReceipts('../receipts_friends.json');
+        let globalReceipts = loadReceipts('../receipts_all.json');
         let result = {
             topProducts: topProducts(receipts, cat, n),
             userTotal: total(receipts, cat),  
@@ -79,4 +81,23 @@ module.exports = function(app) {
         res.json(result);
     })
 
+    app.get('/totals', (req, res) => {
+        let totals = {
+            user: {},
+            friends: {},
+            global: {}
+        };
+        if (!app.locals.receipts) {
+            app.locals.receipts = loadReceipts('../receipts.json');
+        }
+        let receipts = app.locals.receipts;
+        let friendReceipts = loadReceipts('../receipts_friends.json');
+        let globalReceipts = loadReceipts('../receipts_all.json');
+        for (cat of CATEGORIES) {
+            totals.user[cat] = total(receipts, cat);
+            totals.friends[cat] = total(friendReceipts, cat);
+            totals.global[cat] = total(globalReceipts, cat);
+        }
+        res.json(totals);
+    })
 }

@@ -26,12 +26,12 @@ class App extends React.Component {
 }
 
 function ReceiptList(props) {
-    const elements = props.receipts.slice(-10).map(r =>
+    const elements = props.receipts.map(r =>
         <div>
-            <p>{ r.shop } { r.Total }</p>
+            <h4>{ r.shop } { r.total } { r.date }</h4>
             <div>
                 { r.products.map(p => 
-                    <div>{ p.name }</div>  
+                    <div>{ p.name } { p.price }</div>  
                 ) }
             </div>
         </div>

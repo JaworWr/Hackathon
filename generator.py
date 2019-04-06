@@ -18,20 +18,28 @@ def MarketProduct():
            ("Apples", 1 * cont_q, cont_q, True, "Food"), ("Bread", 0.5 * q, q, False, "Food"), ("Potatoes", 0.3 * cont_q, cont_q, True, "Food"),\
            ("Tomatoes", 0.7 * cont_q, cont_q, True, "Food"), ("Bananas", 0.5 * cont_q, cont_q, True, "Food"), ("Oranges", 1.1 * cont_q, cont_q, True, "Food"),\
            ("Mineral Water 1L", 0.80 * q, q, False, "Food"), ("Pepsi 1L", 1 * q, q, False, "Food"),  ("Fanta 0.5L", 0.6 * q, q, False, "Food"),\
-           ("Newspaper", 0.5, 1, False, "Entertainment")])
+           ("Newspaper", 0.5, 1, False, "Entertainment"), ("Vodka", 8.00 * q, q, False, "Food"), ("Cheese", 2.00 * q, q, False, "Food"), \
+           ("Beer", 2.00 * q, q, False, "Food"), ("Champagne", 12.00 * q, q, False, "Food"), ("CD", 10.00 * q, q, False, "Entertainment"),
+           ("Movie", 15.00 * q, q, False, "Entertainment"), ("Carrots", 0.4 * cont_q, cont_q, True, "Food"), ("Juice 1L", 1 * q, q, False, "Food"),\
+           ("Chocolate", 1.3 * q, q, False, "Food"), ("Butter", 2.3 * q, q, False, "Food"), ("Flour", 1.7 * q, q, False, "Food"),\
+           ("Sugar", 2.0 * q, q, False, "Food"), ("Salt", 1.8 * q, q, False, "Food"), ("Ketchup", 3.8 * q, q, False, "Food"), \
+           ("Grapes", 1.2 * cont_q, cont_q, True, "Food"), ("Cucumbers", 0.4 * cont_q, cont_q, True, "Food"), ("Avocados", 1.4 * cont_q, cont_q, True, "Food")])
 
 def BakeryProduct():
     q = random.randint(1, 3)
-    return random.choice([("Bread", 0.5 * q, q, False, "Food"), ("Black Bread", 0.7 * q, q, False, "Food"), \
-           ("Bread roll", 0.2 * q, q, False, "Food"), ("Ciabatta", 0.35 * q, q, False, "Food"), ("Corn Bread", 0.7 * q, q, False, "Food")])
+    return random.choice([("Bread", 0.5 * q, q, False, "Food"), ("Black Bread", 0.7 * q, q, False, "Food"), ("Muffin", 0.3 * q, q, False, "Food"),\
+           ("Bread roll", 0.2 * q, q, False, "Food"), ("Ciabatta", 0.35 * q, q, False, "Food"), ("Corn Bread", 0.7 * q, q, False, "Food"),\
+           ("Croissant", 0.5 * q, q, False, "Food"), ("Donut", 0.5 * q, q, False, "Food"), ("Cookies", 0.1 * q, q, False, "Food")])
 
 def Cosmetics():
     return random.choice([("Shower Gel", 5, 1, False, "Health"), ("Hand Cream", 3, 1, False, "Health"), ("Shampoo", 4, 1, False, "Health"),
-           ("Deodorant", 3, 1, False, "Health"), ("Perfume", 15, 1, False, "Health")])
+           ("Deodorant", 3, 1, False, "Health"), ("Perfume", 15, 1, False, "Health"), ("Toothpaste", 5, 1, False, "Health"),
+           ("Toothbrush", 5, 1, False, "Health"), ("Tissues", 1.5, 1, False, "Health"),  ("Soap", 2.5, 1, False, "Health"),\
+           ("Lotion", 5.5, 1, False, "Health")])
 
 def Clothes():
     return random.choice([("T-Shirt", 15, 1, False), ("Jeans Trousers", 35, 1, False), ("Socks", 5, 1, False),\
-           ("Sweatshirt", 25, 1, False), ("Coat", 50, 1, False), ("Dress", 40, 1, False)])
+           ("Sweatshirt", 25, 1, False), ("Coat", 50, 1, False), ("Dress", 40, 1, False), ("Skirt", 40, 1, False)])
 
 def Shoes():
     return random.choice([("Sandals", 30, 1, False), ("Trainers", 50, 1, False), ("Trainers", 40, 1, False), \
@@ -61,33 +69,25 @@ def Hotel():
 
 def Starbucks():
     q = random.randint(1, 2)
-    return random.choice([("Espresso", 2.30, q, False), ("Cappuccino", 4.30, q, False), ("Flat white", 3.00, q, False),\
-                  ("Tiramisu", 4.00, q, False), ("Cheesecake", 3.50, q, False)])
+    return random.choice([("Espresso", 2.30, q, False), ("Cappuccino", 4.30, q, False), ("Flat white", 3.00, q, False), ("Latte", 4.30, q, False),\
+                  ("Tiramisu", 4.00, q, False), ("Frappuccino", 4.30, q, False), ("Cheesecake", 3.50, q, False), ("Tea", 2.50, q, False)])
 
 def Mac():
     q = random.randint(1, 2)
-    return random.choice([("Hamburger", 2.30, q, False), ("Big Mac", 4.30, q, False), ("Coffee", 1.50, q, False),\
-                  ("French Fries", 1.50, q, False), ("Cheeseburger", 2.70, q, False)])
+    return random.choice([("Hamburger", 2.30, q, False), ("McWrap", 3.30, q, False), ("Big Mac", 4.30, q, False), ("Coffee", 1.50, q, False),\
+                  ("French Fries", 1.50, q, False), ("Cheeseburger", 2.70, q, False), ("IceCream", 1.70, q, False), ("McNuggets", 2.40, q, False)])
 
 def KFC():
     q = random.randint(1, 2)
-    return random.choice([("Longer", 2.60, q, False), ("Grander", 4.50, q, False), ("Coffee", 2.00, q, False),\
-                  ("French Fries", 1.30, q, False), ("Zinger", 2.90, q, False)])
+    return random.choice([("Longer", 2.60, q, False), ("Grander", 4.50, q, False), ("Coffee", 2.00, q, False), ("Chicken Wings", 2.00, q, False),\
+                  ("French Fries", 1.30, q, False), ("Zinger", 2.90, q, False), ("Shake", 1.70, q, False), ("B-Smart", 3.00, q, False) ])
 
 def Pizza():
     q = random.randint(1, 2)
     return random.choice([("Small Pizza", 4.00, q, False), ("Medium Pizza", 6.00, q, False), ("Coffee", 1.90, q, False),\
-                  ("Hot Chocolate Cake", 2.30, q, False), ("Big Pizza", 8.00, q, False)])
+                  ("Hot Chocolate Cake", 2.30, q, False), ("Tea", 1.90, q, False), ("Big Pizza", 8.00, q, False), ("Lemonade", 1.70, q, False)])
 
-categories = ["Food", "Food", "Food", "Food", "Food", "Food", "Food", "Clothing", "Clothing", "Clothing", "Health", "Health", \
-              "Electronics", "Entertainment", "Entertainment", "Travel", "Travel",\
-              "Market", "Market", "Market", "Market", "Market", "Market", "Market", "Market", "Market",\
-              "Food", "Food", "Food", "Food", "Food", "Food", "Food", "Clothing", "Clothing", "Clothing", "Health", "Health", \
-              "Entertainment", "Entertainment", "Travel", "Travel",\
-              "Market", "Market", "Market", "Market", "Market", "Market", "Market", "Market", "Market",\
-              "Food", "Food", "Food", "Food", "Food", "Food", "Food", "Clothing", "Clothing", "Clothing", "Health", "Health", \
-              "Electronics", "Entertainment", "Entertainment", "Travel", "Travel",\
-              "Market", "Market", "Market", "Market", "Market", "Market", "Market", "Market", "Market"]
+categories = ["Food"] * 21 + ["Clothing"] * 9 + ["Electronics"] + ["Entertainment"] * 6 + ["Travel"] * 6 + ["Health"] * 3 + ["Market"] * 27
 
 shops_by_category =\
 {
@@ -97,9 +97,10 @@ shops_by_category =\
     "Electronics": ["Apple", "Samsung", "Sony", "Asus"],
     "Entertainment": ["IMAX", "National Museum", "XDemon - Night Club", "Mundo 71 - Night Club"],
     "Travel": [("Lot", Flight), ("Lufthansa", Flight), ("British Airways", Flight), ("PKP", Train), ("FlixBus", Bus), \
-               ("Novotel", Hotel), ("Marriott", Hotel), ("Hilton", Hotel)],
-    "Market": [("Tesco", MarketProduct), ("Carrefour", MarketProduct), ("Sunny Bakery", BakeryProduct) , ("Eco Bakery", BakeryProduct),\
-               ("Cosy Corner Bakery", BakeryProduct), ("Rossmann", Cosmetics)],
+               ("Novotel", Hotel), ("Marriott", Hotel), ("Hilton", Hotel), ("Intercontinental", Hotel), ("Artotel", Hotel)],
+    "Market": [("Tesco", MarketProduct), ("Carrefour", MarketProduct), ("Auchan", MarketProduct), ("Real", MarketProduct),\
+         ("Sunny Bakery", BakeryProduct) , ("Eco Bakery", BakeryProduct),\
+         ("Cosy Corner Bakery", BakeryProduct), ("Rossmann", Cosmetics)],
     "Other": []
 }
 

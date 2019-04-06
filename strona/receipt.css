@@ -1,18 +1,25 @@
+.listReceipts{
+  max-height: 400px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
 .receipt {
     /* box-shadow: 20px 20px; */
     /* padding: 2mm; */
     margin: 0 auto;
     width: 100%;
     background: #FFF;
-    border: 1px black solid;
-
+    border: 1px rgba(0,0,0,0.2) solid;
     /* max-height:50px; */
     margin: 5px 5px;
+    border-radius: 5px;
 }
 
+
 .listReceipts .receipt{
-  height: 50px;
-  transition: height 0.5s ease-out 0.3s;
+  /* height: 50px; */
+  /* transition: height 0.6s ease-out 0.1s; */
   overflow: hidden;
 }
 
@@ -21,18 +28,20 @@
   height:100%;
 }
 
-.listReceipts .receipt:hover{
-  transition: height 0.5s ease-in 0.3s;
+.receipt.active{
+  /* transition: height 0.2s ease-in; */
   /* max-height: 500px; */
   height:300px
 }
 
 
 .receipt-top{
-  background:rgb(164, 164, 243);
+  background:rgb(251, 183, 183);
   margin:0;
   padding:10px;
   cursor:pointer;
+  color: #824242;
+  font-weight: 600;
 }
 
 .receipt-body{
@@ -73,6 +82,7 @@
 }
 .receipt #top {
   min-height: 100px;
+ 
 }
 .receipt #mid {
   min-height: 80px;
@@ -80,12 +90,7 @@
 .receipt #bot {
   min-height: 50px;
 }
-.receipt #top .logo {
-  height: 60px;
-  width: 60px;
-  background: url(http://michaeltruong.ca/images/logo1.png) no-repeat;
-  background-size: 60px 60px;
-}
+
 .receipt .clientlogo {
   float: left;
   height: 60px;
@@ -100,10 +105,9 @@
 }
 .receipt .title {
   float: right;
+  color: #fff6f6;
 }
-.receipt .title p {
-  text-align: right;
-}
+
 .receipt table {
   width: 100%;
   border-collapse: collapse;
@@ -126,6 +130,10 @@
   border: 1px solid #ef9a9a;
 }
 
+.tableitem{
+  padding:5px;
+  word-wrap: break-word;
+}
 .gridReceipts .receipt{
   max-width:300px;
   display: blcok;

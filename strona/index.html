@@ -31,7 +31,7 @@
                         <a href="#fake"><span class="glyphicon glyphicon-home"></span> Home</a>
                     </li>
                     <li>
-                        <a href="#fake"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+                        <a href="#fake"><span class="glyphicon glyphicon-stats"></span> Settings</a>
                     </li>
                     <li>
                         <a href="#fake"><span class="glyphicon glyphicon-signal"></span> Stats</a>
@@ -50,7 +50,7 @@
 
             <div class="col-md-3">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Hi xox!</div>
+                    <div class="panel-heading">Welcome back xox!</div>
                     <div class="panel-body">
                         <a href="#">
                             <img class="img-responsive" alt="" src="myAvatar.png">
@@ -81,7 +81,7 @@
                     <div class="panel-heading">
                         Your statistic1
                     </div>
-                    <div class="panel-body square-pie" >
+                    <div class="panel-body square-pie">
                         <canvas id="stat1"></canvas>
                     </div>
                 </div>
@@ -95,36 +95,53 @@
                         <canvas id="stat2"></canvas>
                     </div>
                 </div>
-                
+
                 <div class="col-md-6">
-                        <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Something1
-                                </div>
-                                <div class="panel-body">
-                                    <canvas id="stat2"></canvas>
-                                </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Top Five
+                        </div>
+                        <div class="panel-body">
+                            <ol class="list-group">
+                                <li class="list-group-item">
+                                    You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
+                                </li>
+                                <li class="list-group-item">
+                                    You spent <span class=result>$800</span> this month.
+                                </li>
+                                <li class="list-group-item">
+                                    You spend <span class=result>$1500</span> on average.
+                                </li>
+                                <li class="list-group-item">
+                                    You saved <span class=result>100</span> trees!
+                                </li>
+                                <li class="list-group-item">
+                                    You visit <span class=result>TESCO</span> the most.
+                                </li>
+                            </ol>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    Something2
-                                </div>
-                                <div class="panel-body">
-                                    <canvas id="stat2"></canvas>
-                                </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Something2
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="stat2"></canvas>
                         </div>
                     </div>
+                </div>
             </div>
-            
-            
+
+
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="has-feedback custom-search">
                             <input type="text" class="form-group" id="search" aria-describedby="search1">
-                            <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-search search-icon" aria-hidden="true"></span>
+                            <a href='#fake' onclick="makeFull()"><span class="glyphicon glyphicon-fullscreen fullscreen-icon" data-toggle="modal" data-target="#myModal"></span></a>
                         </div>
 
                     </div>
@@ -132,6 +149,33 @@
 
                     </div>
                 </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Search Stats for <span class=result>food</span>
+                    </div>
+                    <div class="panel-body">
+                        <ol class="list-group">
+                            <li class="list-group-item">
+                                You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
+                            </li>
+                            <li class="list-group-item">
+                                You spent <span class=result>$800</span> this month.
+                            </li>
+                            <li class="list-group-item">
+                                You spend <span class=result>$1500</span> on average.
+                            </li>
+                            <li class="list-group-item">
+                                You saved <span class=result>100</span> trees!
+                            </li>
+                            <li class="list-group-item">
+                                You visit <span class=result>TESCO</span> the most.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+
             </div>
 
 
@@ -166,20 +210,61 @@
     <script src="example_bar.js"></script>
 
     <script>
-        receiptsList.innerHTML = RECEIPT_EXAMPLE.repeat(3);
+        // var lastOffset = 0;
+        // var currentActive = 0;
+        // var offset = 0;
+        // function WheelHandler(e) {
+        //     let height0 = parseFloat(receiptsList.children[currentActive].clientHeight);
+        //     let height1 = parseFloat(receiptsList.children[currentActive+1].clientHeight);
+
+        //     console.log(currentActive);
+        //     console.log(height1, e.y)
+        //     if(currentActive < 0) return;
+        //     if(currentActive >= receiptsList.children.length+1) return;
+
+        //     if(height0 <= 30){
+        //         currentActive++; 
+        //     }
+        //     if(height0 >= 600){
+        //         currentActive--; 
+        //     }
+        //     offset += e.deltaY;
+        //     let change = offset - lastOffset;
+        //     // console.log(e.y);
+        //     if(Math.abs(change) > 0.001){
+        //         let c = change < 0? -20 : 20;
+        //         receiptsList.children[currentActive].style.height = (height0 - c) + 'px';
+        //         // if()
+        //         receiptsList.children[currentActive+1].style.height = (height1 + c) + 'px';
+        //         lastOffset = offset;
+        //     }
+        //     // console.log(e.offsetY)
+        // }
+
         function displayReceipts() {
-            modalBody.innerHTML = '<div class="gridReceipts">' + RECEIPT_EXAMPLE.repeat(10) + '</div>';
+            modalBody.innerHTML = '<div class="gridReceipts">' + RECEIPT_EXAMPLE.repeat(30) + '</div>';
         }
 
-
         window.onload = function () {
+
+            receiptsList.innerHTML = RECEIPT_EXAMPLE.repeat(10);
+            // receiptsList.children.forEach(e=>e.classList.add('active'));
+            // receiptsList.onmousewheel = WheelHandler;
+
+
+
+
             var ctx_pie = document.getElementById('stat1').getContext('2d');
             window.myPie = new Chart(ctx_pie, config_pie);
 
             var ctx_bar = document.getElementById('stat2').getContext('2d');
             window.myPie2 = new Chart(ctx_bar, config_bar);
         };
-        
+
+        function makeFull(){
+            modalBody.innerHTML = '<div class="gridReceipts">' + receiptsList.innerHTML + '</div>';
+        }
+
     </script>
 
 

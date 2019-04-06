@@ -36,6 +36,9 @@ var config_bar =  {
                     offsetGridLines: true
                 }
             }]
+        },
+        legend: {
+            display: false
         }
     }
 };

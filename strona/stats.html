@@ -50,8 +50,17 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default stats-all">
-                    <div class="panel-heading">
-                        Kategoria #1
+                    <div class="panel-heading clearfix">
+                        <div class="pull-right">
+                                <select class="form-control form-control-sm header-select">
+                                        <option>Food</option>
+                                        <option>Health</option>
+                                        <option>Travel</option>
+                                        <option>Fun</option>
+                                        <option>Clothes</option>
+                                    </select>
+                        </div>
+                        
                     </div>
                     
                     <div class="panel-body">
@@ -78,38 +87,78 @@
                 </div>
             </div>
             <div class="col-md-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            Kategoria #2
+                    <div class="panel panel-default stats-all">
+                        <div class="panel-heading clearfix">
+                            <div class="pull-right">
+                                    <select class="form-control form-control-sm header-select">
+                                            <option>Food</option>
+                                            <option>Health</option>
+                                            <option>Travel</option>
+                                            <option>Fun</option>
+                                            <option>Clothes</option>
+                                        </select>
+                            </div>
+                            
                         </div>
+                        
                         <div class="panel-body">
-                            <canvas id="tagbar1"></canvas>
+                            <canvas id="tagbar2"></canvas>
                         </div>
+                        <select class="form-control form-control-sm">
+                            <option>You</option>
+                            <option>Friend</option>
+                            <option>Local</option>
+                        </select>
                         <div class="panel-body">
                             Price
-                            <canvas id="productbar1_price"></canvas>
+                            <canvas id="productbar2_price"></canvas>
                         </div>
+                        <select class="form-control form-control-sm">
+                                <option>You</option>
+                                <option>Friend</option>
+                                <option>Local</option>
+                        </select>
                         <div class="panel-body">
                             Quantity
-                            <canvas id="productbar1_quantity"></canvas>
+                            <canvas id="productbar2_quantity"></canvas>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                Kategoria #3
+                        <div class="panel panel-default stats-all">
+                            <div class="panel-heading clearfix">
+                                <div class="pull-right">
+                                        <select class="form-control form-control-sm header-select">
+                                                <option>Food</option>
+                                                <option>Health</option>
+                                                <option>Travel</option>
+                                                <option>Fun</option>
+                                                <option>Clothes</option>
+                                            </select>
+                                </div>
+                                
                             </div>
+                            
                             <div class="panel-body">
-                                <canvas id="tagbar1"></canvas>
+                                <canvas id="tagbar3"></canvas>
                             </div>
+                            <select class="form-control form-control-sm">
+                                <option>You</option>
+                                <option>Friend</option>
+                                <option>Local</option>
+                            </select>
                             <div class="panel-body">
                                 Price
-                                <canvas id="productbar1_price"></canvas>
+                                <canvas id="productbar3_price"></canvas>
                             </div>
+                            <select class="form-control form-control-sm">
+                                    <option>You</option>
+                                    <option>Friend</option>
+                                    <option>Local</option>
+                            </select>
                             <div class="panel-body">
                                 Quantity
-                                <canvas id="productbar1_quantity"></canvas>
+                                <canvas id="productbar3_quantity"></canvas>
                             </div>
                         </div>
                     </div>
@@ -167,6 +216,24 @@
             window.productBar1Price = new Chart(ctx_bar, product_bar);
 
             var ctx_bar = document.getElementById('productbar1_quantity').getContext('2d');
+            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('tagbar2').getContext('2d');
+            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+
+            var ctx_bar = document.getElementById('productbar2_price').getContext('2d');
+            window.productBar1Price = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('productbar2_quantity').getContext('2d');
+            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('tagbar3').getContext('2d');
+            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+
+            var ctx_bar = document.getElementById('productbar3_price').getContext('2d');
+            window.productBar1Price = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('productbar3_quantity').getContext('2d');
             window.productBar1Quantity = new Chart(ctx_bar, product_bar);
 
             /* rest */

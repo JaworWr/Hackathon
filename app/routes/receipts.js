@@ -21,6 +21,18 @@ function loadReceipts(path) {
     };
 }
 
+function loadAllReceipts(app, path, friends_path, global_path) {
+    if (!app.locals || !app.locals.receipts) {
+        app.locals.receipts = loadReceipts(path);
+    }
+    if (!app.locals || !app.locals.friendReceipts) {
+        app.locals.friendReceipts = loadReceipts(friends_path);
+    }
+    if (!app.locals || !app.locals.globalReceipts) {
+        app.locals.globalReceipts = loadReceipts(global_path);
+    }
+}
+
 function compareField(field) {
     return (a, b) => b[field] - a[field];
 }
@@ -45,7 +57,7 @@ function total(receipts, cat) {
         quantity: 0
     }
     let {products} = receipts;
-    for (p in products) {
+    for (let p in products) {
         if (!cat || products[p].category == cat) {
             res.price += products[p].price;
             res.quantity += products[p].quantity;
@@ -54,10 +66,39 @@ function total(receipts, cat) {
     return res;
 }
 
+function intervalTotal(receipts, start, end) {
+    receipts = receipts.receipts;
+    let res = {
+        price: 0,
+        quantity: 0
+    }
+    for (let r of receipts) {
+        if(start <= r.date && r.date <= end) {
+            for (let p of r.products) {
+                res.price += p.price;
+                res.quantity += p.quantity;
+            }
+        }
+    }
+    return res;
+}
+
+function monthsData(receipts, months=12) {
+    let end = new Date();
+    let start = new Date(end);
+    start.setMonth(start.getMonth() - 1);
+    let result = Array(months);
+    for (let i = months - 1; i >= 0; i--) {
+        result[i] = intervalTotal(receipts, start, end);
+        start.setMonth(start.getMonth() - 1);
+        end.setMonth(end.getMonth() - 1);
+    }
+    return result;
+}
+
 module.exports = function(app) {
     app.get('/receipts', (req, res) => {
         let receipts = loadReceipts('../receipts.json')
-        console.log(receipts);
         app.locals.receipts = receipts;
         res.json(receipts.receipts);
     })
@@ -65,13 +106,8 @@ module.exports = function(app) {
     app.get('/category_stats', (req, res) => {
         let cat = req.query.category;
         let n = req.query.n || 5;
-        console.log(cat);
-        if (!app.locals.receipts) {
-            app.locals.receipts = loadReceipts('../receipts.json');
-        }
-        let receipts = app.locals.receipts;
-        let friendReceipts = loadReceipts('../receipts_friends.json');
-        let globalReceipts = loadReceipts('../receipts_all.json');
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        let {receipts, friendReceipts, globalReceipts} = app.locals;
         let result = {
             topProducts: topProducts(receipts, cat, n),
             userTotal: total(receipts, cat),  
@@ -87,16 +123,24 @@ module.exports = function(app) {
             friends: {},
             global: {}
         };
-        if (!app.locals.receipts) {
-            app.locals.receipts = loadReceipts('../receipts.json');
-        }
-        let receipts = app.locals.receipts;
-        let friendReceipts = loadReceipts('../receipts_friends.json');
-        let globalReceipts = loadReceipts('../receipts_all.json');
-        for (cat of CATEGORIES) {
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        let {receipts, friendReceipts, globalReceipts} = app.locals;
+        for (let cat of CATEGORIES) {
             totals.user[cat] = total(receipts, cat);
             totals.friends[cat] = total(friendReceipts, cat);
             totals.global[cat] = total(globalReceipts, cat);
+        }
+        res.json(totals);
+    })
+
+    app.get('/month_totals', (req, res) => {
+        let months = req.query.n || 12;
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        let {receipts, friendReceipts, globalReceipts} = app.locals;
+        let totals = {
+            user: monthsData(receipts, months),
+            friends: monthsData(friendReceipts, months),
+            global: monthsData(globalReceipts, months)
         }
         res.json(totals);
     })

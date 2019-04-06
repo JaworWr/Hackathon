@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 # import the necessary packages
 from PIL import Image
 import pytesseract
@@ -8,6 +9,7 @@ from PIL import Image
 import pytesseract
 import json
 import time
+import sys
 
 def transform(path):
     # load the example image and convert it to grayscale
@@ -33,7 +35,7 @@ def parse(text):
     text = text.split('\n')
     products = []
     for line in text:
-        print(line)
+        # print(line)
         bDigit = False
         bPoint = False
         for l in line:
@@ -45,12 +47,13 @@ def parse(text):
         if bDigit and bPoint:
             splitLine = line.split('£')
             #print(splitLine)
-            (name, price) = splitLine
-            if name[len(name) - 1] == ' ':
-                name = name[:len(name) - 1]
-            #print(name)
-            #print(price)
-            products.append((name, float(price)))
+            if len(splitLine) > 1:
+                (name, price) = splitLine 
+                if len(name) > 0:
+                    name = name.strip()
+                    #print(name)
+                    #print(price)
+                    products.append((name, float(price)))
             
     # remove two last
     name = text[0]
@@ -77,3 +80,8 @@ def process_img(img):
     text = pytesseract.image_to_string(img)
     print(text)
     return tojson(parse(text))
+
+if __name__ == "__main__":
+    img = Image.open(sys.argv[1])
+    json = process_img(img)
+    print(json)

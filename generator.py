@@ -115,6 +115,11 @@ def generate_Entertainment():
 
     res["products"] = prods
 
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
+
     return res
 
 def generate_Clothing():
@@ -131,6 +136,11 @@ def generate_Clothing():
 
     res["products"] = prods
 
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
+
     return res
 
 def generate_Travel():
@@ -142,6 +152,11 @@ def generate_Travel():
     prods = [{"name" : name, "quantity" : quantity, "isWeight" : isW, "price" : price, "category": "Travel"}]
 
     res["products"] = prods
+
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
 
     return res
 
@@ -159,6 +174,11 @@ def generate_Market():
 
     res["products"] = prods
 
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
+
     return res
 
 def generate_Health():
@@ -169,6 +189,11 @@ def generate_Health():
     name, price, quantity, isW = product
     prods =  [{"name" : name, "quantity" : quantity, "isWeight" : isW, "price" : normal_price(price, 3, 8), "category": "Health"}]
     res["products"] = prods
+
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
 
     return res
 
@@ -189,6 +214,11 @@ def generate_Electronics():
 
     res["products"] = prods
 
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
+
     return res
 
 def generate_Food():
@@ -204,6 +234,11 @@ def generate_Food():
         prods.append({"name" : name, "quantity" : quantity, "isWeight" : isW, "price" : price, "category": "Food"})
 
     res["products"] = prods
+
+    total = 0
+    for p in prods:
+        total += p["price"]
+    res["total"] = total
 
     return res
 

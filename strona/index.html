@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CodePen - Twitter layout html css</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='style.css'>
+    <link rel='stylesheet' href='receipt.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+
+    <script>
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 120 + 20);
+        };
+        window.addEventListener('load', () => window.resizeTo(1, 1));
+    </script>
+</head>
+
+<body translate="no">
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-collapse navbar-collapse-1 collapse" aria-expanded="true">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="#fake"><span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                    <li>
+                        <a href="#fake"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+                    </li>
+                    <li>
+                        <a href="#fake"><span class="glyphicon glyphicon-signal"></span> Stats</a>
+                    </li>
+                    <li>
+                        <a onclick="displayReceipts()" href="#receipts" data-toggle="modal" data-target="#myModal"><span
+                                class="glyphicon glyphicon-list-alt"></span> Receipts</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Hi xox!</div>
+                    <div class="panel-body">
+                        <a href="#">
+                            <img class="img-responsive" alt="" src="myAvatar.png">
+                        </a>
+                        <!-- <div class="row">
+                            <div class="col-xs-3">
+                                <h5>
+                                    <small>TWEETS</small>
+                                    <a href="#">1,545</a>
+                                </h5>
+                            </div>
+                            <div class="col-xs-4">
+                                <h5>
+                                    <small>FOLLOWING</small>
+                                    <a href="#">251</a>
+                                </h5>
+                            </div>
+                            <div class="col-xs-5">
+                                <h5>
+                                    <small>FOLLOWERS</small>
+                                    <a href="#">153</a>
+                                </h5>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Your statistic1
+                    </div>
+                    <div class="panel-body square-pie" >
+                        <canvas id="stat1"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Compared wydatki
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="stat2"></canvas>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Something1
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="stat2"></canvas>
+                                </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    Something2
+                                </div>
+                                <div class="panel-body">
+                                    <canvas id="stat2"></canvas>
+                                </div>
+                        </div>
+                    </div>
+            </div>
+            
+            
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="has-feedback custom-search">
+                            <input type="text" class="form-group" id="search" aria-describedby="search1">
+                            <span class="glyphicon glyphicon-search form-control-feedback" aria-hidden="true"></span>
+                        </div>
+
+                    </div>
+                    <div class="panel-body listReceipts" id="receiptsList">
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+    <div class="modal fade" id="myModal" tabindex=-1 role="dialog">
+        <div class="modal-dialog custom-modal" role="document">
+            <div class="">
+                <div id="modalBody" class="col-md-12">
+                    DYNAMIC CONTENT HERE
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="example_receipt.js"></script>
+    <script src="example_pie.js"></script>
+    <script src="example_bar.js"></script>
+
+    <script>
+        receiptsList.innerHTML = RECEIPT_EXAMPLE.repeat(3);
+        function displayReceipts() {
+            modalBody.innerHTML = '<div class="gridReceipts">' + RECEIPT_EXAMPLE.repeat(10) + '</div>';
+        }
+
+
+        window.onload = function () {
+            var ctx_pie = document.getElementById('stat1').getContext('2d');
+            window.myPie = new Chart(ctx_pie, config_pie);
+
+            var ctx_bar = document.getElementById('stat2').getContext('2d');
+            window.myPie2 = new Chart(ctx_bar, config_bar);
+        };
+        
+    </script>
+
+</body>
+
+</html>

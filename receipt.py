@@ -77,6 +77,8 @@ def tojson(triple):
     return json.dumps(jsonObject)
 
 def process_img(img):
+    if (img.width > img.height):
+        img = img.rotate(90)
     text = pytesseract.image_to_string(img)
     print(text)
     return tojson(parse(text))

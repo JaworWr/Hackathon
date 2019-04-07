@@ -92,8 +92,8 @@
                         <div class="panel-heading">
                             Something2
                         </div>
-                        <div class="panel-body">
-                            <canvas id="stat2"></canvas>
+                        <div class="panel-body" id="saveTree">
+                            
                         </div>
                     </div>
                 </div>
@@ -214,6 +214,17 @@
             let o = await (await fetch('/receipts.json')).text()
             RECEIPTS = JSON.parse(o);
             receiptsList.innerHTML = createReceiptList(RECEIPTS);
+            treesToSave = 6-(RECEIPTS.length % 6);
+            saveTree.innerHTML = `
+            <p>To save another tree you need <span class=result>${6-treesToSave}</span> more receipts.</p>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="${1}" aria-valuemin="0" aria-valuemax="100">${Math.floor((treesToSave/6)*100)}</div>
+            </div>
+            `;
+
+
+
+
             processData();
             // receiptsList.children.forEach(e=>e.classList.add('active'));
             // receiptsList.onmousewheel = WheelHandler;

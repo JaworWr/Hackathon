@@ -150,29 +150,8 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Search Stats for <span class=result>food</span>
-                    </div>
-                    <div class="panel-body">
-                        <ol class="list-group">
-                            <li class="list-group-item">
-                                Your avarage price on <span class=result>Cofee</span> is <span class=result>$300</span>.
-                            </li>
-                            <li class="list-group-item">
-                                Your friends avarage is <span class=result>$800</span>.
-                            </li>
-                            <li class="list-group-item">
-                                Local average is <span class=result>$1500</span>.
-                            </li>
-                            <li class="list-group-item">
-                                Your total money spent on <span class=result>Cofee</span> this month is <span class=result>100</span>.
-                            </li>
-                            <li class="list-group-item">
-                                You can buy the product in <span class=result>TESCO</span>.
-                            </li>
-                        </ol>
-                    </div>
+                <div class="panel panel-default hidden" id='searchStats'>
+                    
                 </div>
 
 
@@ -287,12 +266,16 @@
 
         function createReceiptList(o){
             let receipts = "";
+            let str = search.value.toLowerCase() || '$$$$';
             for(let el of o){
                 let header = RECEIPT_TEMPLATE_HEADER.replace('@SHOP@', el.shop).replace('@DATE@', getFormattedDate(el.date));
                 let prices = "";
                 for(let p of el.products){
-                    // console.log(p);
-                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', p.name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price);
+                    let name = p.name;
+                    if(name.toLowerCase().startsWith(str)){
+                        name = `<strong>${name}</strong>`;
+                    }
+                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price);
                 }
                 let body = RECEIPT_TEMPLATE_BODY.replace('@PRICES@', prices);
                 let receipt = header.replace('@BODY@', body);
@@ -300,6 +283,27 @@
                 receipts += receipt;
             }
             return receipts;
+        }
+
+        async function displayStats(name){
+            if(!name) {
+                searchStats.classList.add('hidden');
+            }
+            searchStats.classList.remove('hidden');
+            let stats = SEARCH_STATS_TEMPLATE.replace(/@NAME@/g, name);
+            searchStats.innerHTML = stats;
+        }
+
+        search.oninput = function(e){
+            let str = search.value;
+            displayStats(search.value);
+            let o = [];
+            for(let el of RECEIPTS){
+                for(let p of el.products){
+                    if(p.name.toLowerCase().startsWith(str)) o.push(el)
+                }
+            }
+            receiptsList.innerHTML = createReceiptList(o);
         }
 
     </script>

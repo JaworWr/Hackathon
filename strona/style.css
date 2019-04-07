@@ -67,3 +67,7 @@ div.panel-heading{
 .hidden{
     display:none;
 }
+
+.result{
+    font-weight: 600;
+}

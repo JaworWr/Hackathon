@@ -1,10 +1,20 @@
 const CATEGORIES = ['Food', 'Health', 'Clothing', 'Electronics', 'Entertainment', 'Travel']
+const {spawn} = require('child_process');
+const path = require('path');
+
+function runScript(img_path){
+    return spawn('python3', [
+      "-u", 
+      path.join(__dirname, '../receipt.py'),
+      img_path
+    ]);
+  }
 
 function loadReceipts(path) {
     let receipts = require(path);
     let products = {};
     receipts.forEach(r => {
-        r.date = new Date(r.date * 1000);
+        // r.date = new Date(r.date * 1000);
         r.products.forEach(p => {
             if (p.name in products) {
                 products[p.name].price += p.price;
@@ -73,7 +83,8 @@ function intervalTotal(receipts, start, end) {
         quantity: 0
     }
     for (let r of receipts) {
-        if(start <= r.date && r.date <= end) {
+        let date = new Date(r.date * 1000);
+        if(start <= date && date <= end) {
             for (let p of r.products) {
                 res.price += p.price;
                 res.quantity += p.quantity;
@@ -187,5 +198,34 @@ module.exports = function(app) {
         }
         totals.shop = totals.user.shop;
         res.json(totals);
+    })
+
+    app.get('/upload', (req, res) => {
+        res.render('upload.ejs');
+    })
+    
+    app.post('/upload', app.locals.upload.single('file'), async function(req, res, next){
+        console.log(req.file)
+        // let p = req.file.path;
+        let p = 'uploads/6c0df34c77d673a1c462a0b963c1298';
+        // console.log(path.join(__dirname, '../..', req.file.path))
+        const subprocess = runScript(path.join(__dirname, '../..', p))
+        // print output of script
+        await new Promise(r=>{
+            subprocess.stdout.on('data', (data) => {
+                let receipt = JSON.parse(data);
+                console.log(receipt);
+                loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+                app.locals.receipts.receipts.unshift(receipt);
+                r();
+            });
+        })
+        
+        res.redirect('/');
+    });
+
+    app.get('/receipts.json', (req, res) => {
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        res.json(app.locals.receipts.receipts);
     })
 }

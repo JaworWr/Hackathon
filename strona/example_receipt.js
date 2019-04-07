@@ -59,3 +59,23 @@ var SEARCH_STATS_TEMPLATE = `
     </ol>
 </div>
 `
+
+var TOP_FIVE_TEMPLATE = `
+<ol class="list-group">
+    <li class="list-group-item">
+        You spent <span class=result>$@SPENT_ON_ITEM@</span> on <span class=result>@ITEM@</span>!
+    </li>
+    <li class="list-group-item">
+        You spent <span class=result>$@SPENT_SO_FAR@</span> this month.
+    </li>
+    <li class="list-group-item">
+        You spend <span class=result>$@AVG_MONTH@</span> on average.
+    </li>
+    <li class="list-group-item">
+        You saved <span class=result>1337</span> trees!
+    </li>
+    <li class="list-group-item">
+        You visited <span class=result>@SHOP@</span> <span class=result>@SHOP_TIMES@</span> times and that is your best score.
+    </li>
+</ol>
+`

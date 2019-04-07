@@ -1,0 +1,10 @@
+.stats-all select{
+    margin: 10px;
+    width: 100px;
+    float: right;
+}
+
+.header-select{
+    margin: 0px;
+    background:#e7e7e7;
+}

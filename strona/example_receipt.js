@@ -22,7 +22,7 @@ var RECEIPT_TEMPLATE_BODY = `
 `;
 
 var RECEIPT_TEMPLATE_PRICE = `
-<tr class="service">
+<tr class="service @HIGHLIGHT@">
     <td class="tableitem">
         <p class="itemtext">@PRODUCT@</p>
     </td>

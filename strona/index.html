@@ -6,9 +6,9 @@
     <title>CodePen - Twitter layout html css</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
-    <link rel='stylesheet' href='style.css'>
-    <link rel='stylesheet' href='receipt.css'>
-    <link rel='stylesheet' href='button-image.css'>
+    <link rel='stylesheet' href='css/style.css'>
+    <link rel='stylesheet' href='css/receipt.css'>
+    <link rel='stylesheet' href='css/button-image.css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
@@ -55,31 +55,11 @@
                         <a href="#">
                             <img class="img-responsive" alt="" src="myAvatar.png">
                         </a>
-                        <!-- <div class="row">
-                            <div class="col-xs-3">
-                                <h5>
-                                    <small>TWEETS</small>
-                                    <a href="#">1,545</a>
-                                </h5>
-                            </div>
-                            <div class="col-xs-4">
-                                <h5>
-                                    <small>FOLLOWING</small>
-                                    <a href="#">251</a>
-                                </h5>
-                            </div>
-                            <div class="col-xs-5">
-                                <h5>
-                                    <small>FOLLOWERS</small>
-                                    <a href="#">153</a>
-                                </h5>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Your statistic1
+                        Your summary
                     </div>
                     <div class="panel-body square-pie">
                         <canvas id="stat1"></canvas>
@@ -89,7 +69,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Compared wydatki
+                        Last months expenses
                     </div>
                     <div class="panel-body">
                         <canvas id="stat2"></canvas>
@@ -177,8 +157,9 @@
     </a>
 
     <script src="example_receipt.js"></script>
-    <script src="example_pie.js"></script>
-    <script src="example_bar.js"></script>
+    <script src="charts/summary_pie.js"></script>
+    <!-- <script src="example_bar.js"></script> -->
+    <script src="charts/last_months.js"></script>
 
     <script>
         // var lastOffset = 0;
@@ -249,10 +230,10 @@
             // receiptsList.onmousewheel = WheelHandler;
 
             var ctx_pie = document.getElementById('stat1').getContext('2d');
-            window.myPie = new Chart(ctx_pie, config_pie);
+            window.myPie = new Chart(ctx_pie, f_summary_pie([50,10,20,20,20,30]));
 
             var ctx_bar = document.getElementById('stat2').getContext('2d');
-            window.myPie2 = new Chart(ctx_bar, config_bar);
+            window.myPie2 = new Chart(ctx_bar, f_last_months([1500,1300,1700,800]));
         };
 
         function makeFull(){
@@ -271,11 +252,11 @@
                 let header = RECEIPT_TEMPLATE_HEADER.replace('@SHOP@', el.shop).replace('@DATE@', getFormattedDate(el.date));
                 let prices = "";
                 for(let p of el.products){
-                    let name = p.name;
-                    if(name.toLowerCase().startsWith(str)){
-                        name = `<strong>${name}</strong>`;
+                    let highlight = '';
+                    if(p.name.toLowerCase().startsWith(str)){
+                        highlight = 'highlight';
                     }
-                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price);
+                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', p.name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price).replace('@HIGHLIGHT@', highlight);
                 }
                 let body = RECEIPT_TEMPLATE_BODY.replace('@PRICES@', prices);
                 let receipt = header.replace('@BODY@', body);
@@ -286,9 +267,6 @@
         }
 
         async function displayStats(name){
-            if(!name) {
-                searchStats.classList.add('hidden');
-            }
             searchStats.classList.remove('hidden');
             let stats = SEARCH_STATS_TEMPLATE.replace(/@NAME@/g, name);
             searchStats.innerHTML = stats;
@@ -296,6 +274,10 @@
 
         search.oninput = function(e){
             let str = search.value;
+            if(!str) {
+                searchStats.classList.add('hidden');
+                return;
+            }
             displayStats(search.value);
             let o = [];
             for(let el of RECEIPTS){

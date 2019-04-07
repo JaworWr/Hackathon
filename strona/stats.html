@@ -208,7 +208,38 @@
     <script src="charts/summary_bar.js"></script>
 
     <script>
+        let category_stats = {
+            Food: {},
+            Entertainment: {},
+            Health: {},
+            Clothing: {},
+            Electronics: {},
+            Travel: {}
+        }
+        let count = 6;
+        let totals =
         window.onload = function () {
+            for (cat in category_stats) {
+                var req = new XMLHttpRequest();
+                req.open('get', '/category_stats');
+                req.onreadystatechange = function() {
+                    if (req.readyState == XMLHttpRequest.DONE) {
+                        stats[cat] = JSON.parse(req.responseText);
+                        count--;
+                    }
+
+                    if (count == 0) {
+                        tag_bar.data = [category_stats.Food.userTotal.price, category_stats.Food.friendsTotal.price, category_stats.Food.globalTotal.price];
+                        //category_stats.Food.userTotal.price
+                    }
+
+                }
+                const form = new FormData();
+                form.append('category', cat);
+                req.send(form);
+            }
+
+
             var ctx_bar = document.getElementById('tagbar1').getContext('2d');
             window.tagBar1 = new Chart(ctx_bar, tag_bar);
 

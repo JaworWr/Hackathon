@@ -3,9 +3,9 @@ var tag_bar =  {
     data: {
         datasets: [{
             data: [
-                randomScalingFactor(),
-                randomScalingFactor(),
-                randomScalingFactor(),
+                // randomScalingFactor(),
+                // randomScalingFactor(),
+                // randomScalingFactor(),
             ],
             backgroundColor: [
                 "rgb(255, 99, 132)",

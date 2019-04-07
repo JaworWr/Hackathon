@@ -52,13 +52,13 @@
                 <div class="panel panel-default stats-all">
                     <div class="panel-heading clearfix">
                         <div class="pull-right">
-                                <select class="form-control form-control-sm header-select" autocomplete="off">
-                                        <option selected>Food</option>
-                                        <option>Health</option>
-                                        <option>Clothing</option>
-                                        <option>Electronics</option>
-                                        <option>Entertainment</option>
-                                        <option>Travel</option>
+                                <select class="form-control form-control-sm header-select" autocomplete="off" id="select1">
+                                        <option value="Food" selected>Food</option>
+                                        <option value="Health">Health</option>
+                                        <option value="Clothing">Clothing</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Entertainment">Entertainment</option>
+                                        <option value="Travel">Travel</option>
                                     </select>
                         </div>
                         
@@ -91,13 +91,13 @@
                     <div class="panel panel-default stats-all">
                         <div class="panel-heading clearfix">
                             <div class="pull-right">
-                                    <select class="form-control form-control-sm header-select" autocomplete="off">
-                                        <option>Food</option>
-                                        <option selected>Health</option>
-                                        <option>Clothing</option>
-                                        <option>Electronics</option>
-                                        <option>Entertainment</option>
-                                        <option>Travel</option>
+                                    <select class="form-control form-control-sm header-select" autocomplete="off" id="select2">
+                                            <option value="Food">Food</option>
+                                            <option value="Health" selected>Health</option>
+                                            <option value="Clothing">Clothing</option>
+                                            <option value="Electronics">Electronics</option>
+                                            <option value="Entertainment">Entertainment</option>
+                                            <option value="Travel">Travel</option>
                                         </select>
                             </div>
                             
@@ -130,13 +130,13 @@
                         <div class="panel panel-default stats-all">
                             <div class="panel-heading clearfix">
                                 <div class="pull-right">
-                                        <select class="form-control form-control-sm header-select" autocomplete="off">
-                                                <option>Food</option>
-                                                <option>Health</option>
-                                                <option>Clothing</option>
-                                                <option>Electronics</option>
-                                                <option>Entertainment</option>
-                                                <option selected>Travel</option>
+                                        <select class="form-control form-control-sm header-select" autocomplete="off" id="select3">
+                                                <option value="Food">Food</option>
+                                                <option value="Health">Health</option>
+                                                <option value="Clothing">Clothing</option>
+                                                <option value="Electronics">Electronics</option>
+                                                <option value="Entertainment">Entertainment</option>
+                                                <option value="Travel" selected>Travel</option>
                                             </select>
                                 </div>
                                 
@@ -289,14 +289,29 @@
                 }
             }
             m_req.send();
+            for (let i = 0; i < 3; i++) {
+                document.getElementById(`select${i+1}`).addEventListener('change', event => {
+                    let s = category_stats[event.target.value];
+                    let chart_data = [s.userTotal.price, s.friendsTotal.price, s.globalTotal.price];
+                    let canvas = document.getElementById(`tagbar${i+1}`);
+                    let ctx_bar = canvas.getContext('2d');
+                    ctx_bar.clearRect(0, 0, canvas.width, canvas.height);
+                    window[`tagbar${i+1}`].destroy();
+                    let tag_bar = f_tag_bar(chart_data);
+                    window[`tagbar${i+1}`] = new Chart(ctx_bar, tag_bar);
 
-            /* rest */
-
-            // var ctx_bar = document.getElementById('summarypie').getContext('2d');
-            // window.summaryPie = new Chart(ctx_bar, summary_pie);
-
-            // var ctx_bar = document.getElementById('summaryspending').getContext('2d');
-            // window.summarySpending = new Chart(ctx_bar, summary_spending);
+                    for (let field of ['price', 'quantity']) {
+                        let p_chart_data = s.userTop[field].map(p => p[field]);
+                        let p_chart_labels = s.userTop[field].map(p => p.name);
+                        let p_canvas = document.getElementById(`productbar${i+1}_${field}`);
+                        let p_ctx_bar = p_canvas.getContext('2d');
+                        p_ctx_bar.clearRect(0, 0, canvas.width, canvas.height);
+                        window[`productbar${i+1}_${field}`].destroy();
+                        let p_product_bar = f_product_bar(p_chart_data, p_chart_labels);
+                        window[`productbar${i+1}_${field}`] = new Chart(p_ctx_bar, p_product_bar);
+                    }
+                });
+            }
         };
         
     </script>

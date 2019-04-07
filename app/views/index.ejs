@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>CodePen - Twitter layout html css</title>
+    <title>Receiko</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
     <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
     <link rel='stylesheet' href='/css/style.css'>
@@ -90,7 +90,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Something2
+                            Trees to save!
                         </div>
                         <div class="panel-body" id="saveTree">
                             
@@ -218,7 +218,7 @@
             saveTree.innerHTML = `
             <p>To save another tree you need <span class=result>${treesToSave}</span> more receipts.</p>
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="${Math.floor((1-treesToSave/6)*100)}" aria-valuemin="0" aria-valuemax="100">${Math.floor((1-treesToSave/6)*100)}%</div>
+                <div class="progress-bar" role="progressbar" style="width: ${Math.floor((1-treesToSave/6)*100)}%;" aria-valuenow="${Math.floor((1-treesToSave/6)*100)}" aria-valuemin="0" aria-valuemax="100">${Math.floor((1-treesToSave/6)*100)}%</div>
             </div>
             `;
 

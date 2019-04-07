@@ -52,12 +52,13 @@
                 <div class="panel panel-default stats-all">
                     <div class="panel-heading clearfix">
                         <div class="pull-right">
-                                <select class="form-control form-control-sm header-select">
-                                        <option>Food</option>
+                                <select class="form-control form-control-sm header-select" autocomplete="off">
+                                        <option selected>Food</option>
                                         <option>Health</option>
+                                        <option>Clothing</option>
+                                        <option>Electronics</option>
+                                        <option>Entertainment</option>
                                         <option>Travel</option>
-                                        <option>Fun</option>
-                                        <option>Clothes</option>
                                     </select>
                         </div>
                         
@@ -90,12 +91,13 @@
                     <div class="panel panel-default stats-all">
                         <div class="panel-heading clearfix">
                             <div class="pull-right">
-                                    <select class="form-control form-control-sm header-select">
-                                            <option>Food</option>
-                                            <option>Health</option>
-                                            <option>Travel</option>
-                                            <option>Fun</option>
-                                            <option>Clothes</option>
+                                    <select class="form-control form-control-sm header-select" autocomplete="off">
+                                        <option>Food</option>
+                                        <option selected>Health</option>
+                                        <option>Clothing</option>
+                                        <option>Electronics</option>
+                                        <option>Entertainment</option>
+                                        <option>Travel</option>
                                         </select>
                             </div>
                             
@@ -128,12 +130,13 @@
                         <div class="panel panel-default stats-all">
                             <div class="panel-heading clearfix">
                                 <div class="pull-right">
-                                        <select class="form-control form-control-sm header-select">
+                                        <select class="form-control form-control-sm header-select" autocomplete="off">
                                                 <option>Food</option>
                                                 <option>Health</option>
-                                                <option>Travel</option>
-                                                <option>Fun</option>
-                                                <option>Clothes</option>
+                                                <option>Clothing</option>
+                                                <option>Electronics</option>
+                                                <option>Entertainment</option>
+                                                <option selected>Travel</option>
                                             </select>
                                 </div>
                                 
@@ -209,39 +212,41 @@
 
     <script>
         let category_stats = {
-            Food: {},
-            Entertainment: {},
-            Health: {},
-            Clothing: {},
-            Electronics: {},
-            Travel: {}
+            Food: null,
+            Entertainment: null,
+            Health: null,
+            Clothing: null,
+            Electronics: null,
+            Travel: null
         }
         let count = 6;
         let totals =
         window.onload = function () {
             for (cat in category_stats) {
-                var req = new XMLHttpRequest();
-                req.open('get', '/category_stats');
-                req.onreadystatechange = function() {
+                let req = new XMLHttpRequest();
+                req.open('get', `category_stats?category=${cat}`);
+                req.onreadystatechange = (function() {
                     if (req.readyState == XMLHttpRequest.DONE) {
-                        stats[cat] = JSON.parse(req.responseText);
+                        category_stats[this] = JSON.parse(req.responseText);
                         count--;
+                        if (count == 0) {
+                            let cats = ['Food', 'Health', 'Travel'];
+                            for (let i = 0; i < 3; i++) {
+                                let chart_data = [category_stats[cats[i]].userTotal.price, category_stats[cats[i]].friendsTotal.price, category_stats[cats[i]].globalTotal.price];
+                                let ctx_bar = document.getElementById(`tagbar${i+1}`).getContext('2d');
+                                let tag_bar = f_tag_bar(chart_data);
+                                window[`tagbar${i+1}`] = new Chart(ctx_bar, tag_bar);
+                            }
+                            //category_stats.Food.userTotal.price
+                        }
                     }
-
-                    if (count == 0) {
-                        tag_bar.data = [category_stats.Food.userTotal.price, category_stats.Food.friendsTotal.price, category_stats.Food.globalTotal.price];
-                        //category_stats.Food.userTotal.price
-                    }
-
-                }
-                const form = new FormData();
-                form.append('category', cat);
-                req.send(form);
+                }).bind(cat);
+                req.send();
             }
 
 
-            var ctx_bar = document.getElementById('tagbar1').getContext('2d');
-            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+            // var ctx_bar = document.getElementById('tagbar1').getContext('2d');
+            // window.tagBar1 = new Chart(ctx_bar, tag_bar);
 
             var ctx_bar = document.getElementById('productbar1_price').getContext('2d');
             window.productBar1Price = new Chart(ctx_bar, product_bar);
@@ -249,8 +254,8 @@
             var ctx_bar = document.getElementById('productbar1_quantity').getContext('2d');
             window.productBar1Quantity = new Chart(ctx_bar, product_bar);
 
-            var ctx_bar = document.getElementById('tagbar2').getContext('2d');
-            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+            // var ctx_bar = document.getElementById('tagbar2').getContext('2d');
+            // window.tagBar1 = new Chart(ctx_bar, tag_bar);
 
             var ctx_bar = document.getElementById('productbar2_price').getContext('2d');
             window.productBar1Price = new Chart(ctx_bar, product_bar);
@@ -258,8 +263,8 @@
             var ctx_bar = document.getElementById('productbar2_quantity').getContext('2d');
             window.productBar1Quantity = new Chart(ctx_bar, product_bar);
 
-            var ctx_bar = document.getElementById('tagbar3').getContext('2d');
-            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+            // var ctx_bar = document.getElementById('tagbar3').getContext('2d');
+            // window.tagBar1 = new Chart(ctx_bar, tag_bar);
 
             var ctx_bar = document.getElementById('productbar3_price').getContext('2d');
             window.productBar1Price = new Chart(ctx_bar, product_bar);

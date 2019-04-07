@@ -157,19 +157,19 @@
                     <div class="panel-body">
                         <ol class="list-group">
                             <li class="list-group-item">
-                                You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
+                                Your avarage price on <span class=result>Cofee</span> is <span class=result>$300</span>.
                             </li>
                             <li class="list-group-item">
-                                You spent <span class=result>$800</span> this month.
+                                Your friends avarage is <span class=result>$800</span>.
                             </li>
                             <li class="list-group-item">
-                                You spend <span class=result>$1500</span> on average.
+                                Local average is <span class=result>$1500</span>.
                             </li>
                             <li class="list-group-item">
-                                You saved <span class=result>100</span> trees!
+                                Your total money spent on <span class=result>Cofee</span> this month is <span class=result>100</span>.
                             </li>
                             <li class="list-group-item">
-                                You visit <span class=result>TESCO</span> the most.
+                                You can buy the product in <span class=result>TESCO</span>.
                             </li>
                         </ol>
                     </div>
@@ -177,15 +177,7 @@
 
 
             </div>
-
-
-
-
         </div>
-
-
-
-
     </div>
 
 
@@ -240,19 +232,42 @@
         //     }
         //     // console.log(e.offsetY)
         // }
+        
+        var RECEIPTS = {}
 
-        function displayReceipts() {
-            modalBody.innerHTML = '<div class="gridReceipts">' + RECEIPT_EXAMPLE.repeat(30) + '</div>';
+        function getFormattedDate(unix) {
+            var date = new Date();
+            date.setTime(unix*1000);
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+
+            month = (month < 10 ? "0" : "") + month;
+            day = (day < 10 ? "0" : "") + day;
+            hour = (hour < 10 ? "0" : "") + hour;
+            min = (min < 10 ? "0" : "") + min;
+            sec = (sec < 10 ? "0" : "") + sec;
+
+            var str = date.getFullYear() + "-" + month + "-" + day + "<br>" +  hour + ":" + min + ":" + sec;
+
+            /*alert(str);*/
+
+            return str;
         }
 
-        window.onload = function () {
+        async function displayReceipts() {
+            let receipts = createReceiptList(RECEIPTS);
+            modalBody.innerHTML = '<div class="gridReceipts">' + receipts + '</div>';
+        }
 
-            receiptsList.innerHTML = RECEIPT_EXAMPLE.repeat(10);
+        window.onload = async function () {
+            let o = await (await fetch('receipts.json')).text()
+            RECEIPTS = JSON.parse(o);
+            receiptsList.innerHTML = createReceiptList(RECEIPTS);
             // receiptsList.children.forEach(e=>e.classList.add('active'));
             // receiptsList.onmousewheel = WheelHandler;
-
-
-
 
             var ctx_pie = document.getElementById('stat1').getContext('2d');
             window.myPie = new Chart(ctx_pie, config_pie);
@@ -267,6 +282,24 @@
 
         function fakseSettings(){
             modalBody.innerHTML = 'Coming soon';
+        }
+
+
+        function createReceiptList(o){
+            let receipts = "";
+            for(let el of o){
+                let header = RECEIPT_TEMPLATE_HEADER.replace('@SHOP@', el.shop).replace('@DATE@', getFormattedDate(el.date));
+                let prices = "";
+                for(let p of el.products){
+                    // console.log(p);
+                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', p.name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price);
+                }
+                let body = RECEIPT_TEMPLATE_BODY.replace('@PRICES@', prices);
+                let receipt = header.replace('@BODY@', body);
+                // console.log(receipt);
+                receipts += receipt;
+            }
+            return receipts;
         }
 
     </script>

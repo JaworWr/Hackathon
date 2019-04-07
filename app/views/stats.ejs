@@ -302,7 +302,8 @@
 
                     for (let field of ['price', 'quantity']) {
                         let scope = "";
-                        let s0 = document.getElementById(`select${i+1}0`);
+                        let j = (field == 'price' ? 0 : 1);
+                        let s0 = document.getElementById(`select${i+1}${j}`);
                         switch (s0.options[s0.selectedIndex].value) {
                             case 'You':
                                 scope = "userTop";

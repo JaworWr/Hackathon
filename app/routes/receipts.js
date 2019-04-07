@@ -109,7 +109,9 @@ module.exports = function(app) {
         loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
         let {receipts, friendReceipts, globalReceipts} = app.locals;
         let result = {
-            topProducts: topProducts(receipts, cat, n),
+            userTop: topProducts(receipts, cat, n),
+            friendsTop: topProducts(friendReceipts, cat, n),
+            globalTop: topProducts(globalReceipts, cat, n),
             userTotal: total(receipts, cat),  
             friendsTotal: total(friendReceipts, cat),
             globalTotal: total(globalReceipts, cat)

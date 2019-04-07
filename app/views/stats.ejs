@@ -232,10 +232,19 @@
                         if (count == 0) {
                             let cats = ['Food', 'Health', 'Travel'];
                             for (let i = 0; i < 3; i++) {
-                                let chart_data = [category_stats[cats[i]].userTotal.price, category_stats[cats[i]].friendsTotal.price, category_stats[cats[i]].globalTotal.price];
+                                let s = category_stats[cats[i]];
+                                let chart_data = [s.userTotal.price, s.friendsTotal.price, s.globalTotal.price];
                                 let ctx_bar = document.getElementById(`tagbar${i+1}`).getContext('2d');
                                 let tag_bar = f_tag_bar(chart_data);
                                 window[`tagbar${i+1}`] = new Chart(ctx_bar, tag_bar);
+                                
+                                for (let field of ['price', 'quantity']) {
+                                    let p_chart_data = s.userTop[field].map(p => p[field]);
+                                    let p_chart_labels = s.userTop[field].map(p => p.name);
+                                    let p_ctx_bar = document.getElementById(`productbar${i+1}_${field}`).getContext('2d');
+                                    let p_product_bar = f_product_bar(p_chart_data, p_chart_labels);
+                                    window[`productbar${i+1}_${field}`] = new Chart(p_ctx_bar, p_product_bar);
+                                }
                             }
                             //category_stats.Food.userTotal.price
                         }
@@ -248,29 +257,29 @@
             // var ctx_bar = document.getElementById('tagbar1').getContext('2d');
             // window.tagBar1 = new Chart(ctx_bar, tag_bar);
 
-            var ctx_bar = document.getElementById('productbar1_price').getContext('2d');
-            window.productBar1Price = new Chart(ctx_bar, product_bar);
+            // var ctx_bar = document.getElementById('productbar1_price').getContext('2d');
+            // window.productBar1Price = new Chart(ctx_bar, product_bar);
 
-            var ctx_bar = document.getElementById('productbar1_quantity').getContext('2d');
-            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+            // var ctx_bar = document.getElementById('productbar1_quantity').getContext('2d');
+            // window.productBar1Quantity = new Chart(ctx_bar, product_bar);
 
             // var ctx_bar = document.getElementById('tagbar2').getContext('2d');
             // window.tagBar1 = new Chart(ctx_bar, tag_bar);
 
-            var ctx_bar = document.getElementById('productbar2_price').getContext('2d');
-            window.productBar1Price = new Chart(ctx_bar, product_bar);
+            // var ctx_bar = document.getElementById('productbar2_price').getContext('2d');
+            // window.productBar1Price = new Chart(ctx_bar, product_bar);
 
-            var ctx_bar = document.getElementById('productbar2_quantity').getContext('2d');
-            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+            // var ctx_bar = document.getElementById('productbar2_quantity').getContext('2d');
+            // window.productBar1Quantity = new Chart(ctx_bar, product_bar);
 
             // var ctx_bar = document.getElementById('tagbar3').getContext('2d');
             // window.tagBar1 = new Chart(ctx_bar, tag_bar);
 
-            var ctx_bar = document.getElementById('productbar3_price').getContext('2d');
-            window.productBar1Price = new Chart(ctx_bar, product_bar);
+            // var ctx_bar = document.getElementById('productbar3_price').getContext('2d');
+            // window.productBar1Price = new Chart(ctx_bar, product_bar);
 
-            var ctx_bar = document.getElementById('productbar3_quantity').getContext('2d');
-            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+            // var ctx_bar = document.getElementById('productbar3_quantity').getContext('2d');
+            // window.productBar1Quantity = new Chart(ctx_bar, product_bar);
 
             /* rest */
 

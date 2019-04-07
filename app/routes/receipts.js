@@ -98,18 +98,23 @@ function monthsData(receipts, months=12) {
     return result;
 }
 
-// function productData(products, product) {
-//     result = {
-//         price: 0,
-//         quantity: 0,
-//         avg: 0
-//     }
-//     for (p in products) {
-//         if (p.toLowerCase().startsWith(product)) {
-
-//         }
-//     }
-// }
+function productData(receipts, product) {
+    let {products} = receipts;
+    let result = {
+        price: 0,
+        quantity: 0,
+        avg: 0
+    }
+    for (p in products) {
+        if (p.toLowerCase().startsWith(product)) {
+            result.price = products[p].price;
+            result.quantity = products[p].quantity;
+            result.avg = products[p].price / products[p].quantity;
+            return result;
+        }
+    }
+    return result;
+}
 
 module.exports = function(app) {
     app.get('/receipts', (req, res) => {
@@ -169,7 +174,15 @@ module.exports = function(app) {
         res.json({price: price[0], quantity: quantity[0]});
     })
 
-    // app.get('/product_stats', (req, res) => {
-
-    // })
+    app.get('/product_stats', (req, res) => {
+        let product = req.query.product;
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        let {receipts, friendReceipts, globalReceipts} = app.locals;
+        let totals = {
+            user: productData(receipts, product),
+            friends: productData(friendReceipts, product),
+            global: productData(globalReceipts, product)
+        }
+        res.json(totals);
+    })
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const session = require("express-session");
 const morgan = require('morgan');
 const multer = require('multer');
+const cors = require('cors');
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.locals.upload = multer({ dest: 'uploads/' });
 
 app.set("view engine", "ejs");
 app.set('views', 'app/views');
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("app/public"));
 app.use(morgan('dev'));

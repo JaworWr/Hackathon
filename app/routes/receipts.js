@@ -90,6 +90,8 @@ function monthsData(receipts, months=12) {
     let result = Array(months);
     for (let i = months - 1; i >= 0; i--) {
         result[i] = intervalTotal(receipts, start, end);
+        result[i].start = start.toDateString();
+        result[i].end = end.toDateString();
         start.setMonth(start.getMonth() - 1);
         end.setMonth(end.getMonth() - 1);
     }
@@ -145,5 +147,12 @@ module.exports = function(app) {
             global: monthsData(globalReceipts, months)
         }
         res.json(totals);
+    })
+
+    app.get('/top', (req, res) => {
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        let {receipts} = app.locals;
+        let {price, quantity} = topProducts(receipts, null, 1);
+        res.json({price: price[0], quantity: quantity[0]});
     })
 }

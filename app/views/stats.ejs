@@ -271,13 +271,32 @@
             }
             t_req.send();
 
+            let monthTotals = null;
+            let m_req = new XMLHttpRequest();
+            m_req.open('get', '/month_totals');
+            m_req.onreadystatechange = function() {
+                if (m_req.readyState == XMLHttpRequest.DONE) {
+                    totals = JSON.parse(m_req.responseText);
+                    let chart_data = [];
+                    let chart_labels = [];
+                    for (let i = 0; i < 12; i++) {
+                        chart_data.push(totals.user[i].price);
+                        chart_labels.push(totals.user[i].start);
+                    }
+                    let ctx_bar = document.getElementById('summaryspending').getContext('2d');
+                    let summary_spending = f_summary_spending(chart_data, chart_labels);
+                    window.summarySpending = new Chart(ctx_bar, summary_spending);
+                }
+            }
+            m_req.send();
+
             /* rest */
 
             // var ctx_bar = document.getElementById('summarypie').getContext('2d');
             // window.summaryPie = new Chart(ctx_bar, summary_pie);
 
-            var ctx_bar = document.getElementById('summaryspending').getContext('2d');
-            window.summarySpending = new Chart(ctx_bar, summary_spending);
+            // var ctx_bar = document.getElementById('summaryspending').getContext('2d');
+            // window.summarySpending = new Chart(ctx_bar, summary_spending);
         };
         
     </script>

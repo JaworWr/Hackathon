@@ -31,10 +31,11 @@
                         <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
                     </li>
                     <li>
-                        <a href="#fake" onclick="fakseSettings()" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-stats"></span> Settings</a>
+                        <a href="#fake" onclick="fakseSettings()" data-toggle="modal" data-target="#myModal"><span
+                                class="glyphicon glyphicon-stats"></span> Settings</a>
                     </li>
                     <li>
-                        <a href="/stats"><span class="glyphicon glyphicon-signal"></span> Stats</a>
+                        <a href="stats"><span class="glyphicon glyphicon-signal"></span> Stats</a>
                     </li>
                     <li>
                         <a onclick="displayReceipts()" href="#receipts" data-toggle="modal" data-target="#myModal"><span
@@ -55,31 +56,11 @@
                         <a href="#">
                             <img class="img-responsive" alt="" src="myAvatar.png">
                         </a>
-                        <!-- <div class="row">
-                            <div class="col-xs-3">
-                                <h5>
-                                    <small>TWEETS</small>
-                                    <a href="#">1,545</a>
-                                </h5>
-                            </div>
-                            <div class="col-xs-4">
-                                <h5>
-                                    <small>FOLLOWING</small>
-                                    <a href="#">251</a>
-                                </h5>
-                            </div>
-                            <div class="col-xs-5">
-                                <h5>
-                                    <small>FOLLOWERS</small>
-                                    <a href="#">153</a>
-                                </h5>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Your statistic1
+                        Your summary
                     </div>
                     <div class="panel-body square-pie">
                         <canvas id="stat1"></canvas>
@@ -89,7 +70,7 @@
             <div class="col-md-6">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        Compared wydatki
+                        Last months expenses
                     </div>
                     <div class="panel-body">
                         <canvas id="stat2"></canvas>
@@ -101,24 +82,8 @@
                         <div class="panel-heading">
                             Top Five
                         </div>
-                        <div class="panel-body">
-                            <ol class="list-group">
-                                <li class="list-group-item">
-                                    You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
-                                </li>
-                                <li class="list-group-item">
-                                    You spent <span class=result>$800</span> this month.
-                                </li>
-                                <li class="list-group-item">
-                                    You spend <span class=result>$1500</span> on average.
-                                </li>
-                                <li class="list-group-item">
-                                    You saved <span class=result>100</span> trees!
-                                </li>
-                                <li class="list-group-item">
-                                    You visit <span class=result>TESCO</span> the most.
-                                </li>
-                            </ol>
+                        <div class="panel-body" id="topFive">
+
                         </div>
                     </div>
                 </div>
@@ -141,7 +106,9 @@
                         <div class="has-feedback custom-search">
                             <input type="text" class="form-group" id="search" aria-describedby="search1">
                             <span class="glyphicon glyphicon-search search-icon" aria-hidden="true"></span>
-                            <a href='#fake' onclick="makeFull()"><span class="glyphicon glyphicon-fullscreen fullscreen-icon" data-toggle="modal" data-target="#myModal"></span></a>
+                            <a href='#fake' onclick="makeFull()"><span
+                                    class="glyphicon glyphicon-fullscreen fullscreen-icon" data-toggle="modal"
+                                    data-target="#myModal"></span></a>
                         </div>
 
                     </div>
@@ -150,42 +117,13 @@
                     </div>
                 </div>
 
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        Search Stats for <span class=result>food</span>
-                    </div>
-                    <div class="panel-body">
-                        <ol class="list-group">
-                            <li class="list-group-item">
-                                You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
-                            </li>
-                            <li class="list-group-item">
-                                You spent <span class=result>$800</span> this month.
-                            </li>
-                            <li class="list-group-item">
-                                You spend <span class=result>$1500</span> on average.
-                            </li>
-                            <li class="list-group-item">
-                                You saved <span class=result>100</span> trees!
-                            </li>
-                            <li class="list-group-item">
-                                You visit <span class=result>TESCO</span> the most.
-                            </li>
-                        </ol>
-                    </div>
+                <div class="panel panel-default hidden" id='searchStats'>
+
                 </div>
 
 
             </div>
-
-
-
-
         </div>
-
-
-
-
     </div>
 
 
@@ -205,9 +143,10 @@
         <span class="glyphicon glyphicon-plus my-float"></span>
     </a>
 
-    <script src="/scripts/example_receipt.js"></script>css/
-    <script src="/scripts/example_pie.js"></script>
-    <script src="/scripts/example_bar.js"></script>
+    <script src="/scripts/example_receipt.js"></script>
+    <script src="/scripts/charts/summary_pie.js"></script>
+    <!-- <script src="example_bar.js"></script> -->
+    <script src="/scripts/charts/last_months.js"></script>
 
     <script>
         // var lastOffset = 0;
@@ -241,32 +180,146 @@
         //     // console.log(e.offsetY)
         // }
 
-        function displayReceipts() {
-            modalBody.innerHTML = '<div class="gridReceipts">' + RECEIPT_EXAMPLE.repeat(30) + '</div>';
+        var RECEIPTS = {}
+
+        function getFormattedDate(unix) {
+            var date = new Date();
+            date.setTime(unix * 1000);
+            var month = date.getMonth() + 1;
+            var day = date.getDate();
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+
+            month = (month < 10 ? "0" : "") + month;
+            day = (day < 10 ? "0" : "") + day;
+            hour = (hour < 10 ? "0" : "") + hour;
+            min = (min < 10 ? "0" : "") + min;
+            sec = (sec < 10 ? "0" : "") + sec;
+
+            var str = date.getFullYear() + "-" + month + "-" + day + "<br>" + hour + ":" + min + ":" + sec;
+
+            /*alert(str);*/
+
+            return str;
         }
 
-        window.onload = function () {
+        async function displayReceipts() {
+            let receipts = createReceiptList(RECEIPTS);
+            modalBody.innerHTML = '<div class="gridReceipts">' + receipts + '</div>';
+        }
 
-            receiptsList.innerHTML = RECEIPT_EXAMPLE.repeat(10);
+        window.onload = async function () {
+            let o = await (await fetch('/receipts.json')).text()
+            RECEIPTS = JSON.parse(o);
+            receiptsList.innerHTML = createReceiptList(RECEIPTS);
+            processData();
             // receiptsList.children.forEach(e=>e.classList.add('active'));
             // receiptsList.onmousewheel = WheelHandler;
 
-
-
-
             var ctx_pie = document.getElementById('stat1').getContext('2d');
-            window.myPie = new Chart(ctx_pie, config_pie);
+            window.myPie = new Chart(ctx_pie, f_summary_pie([50, 10, 20, 20, 20, 30], [
+                'Food',
+                'Health',
+                'Travel',
+                'Entertainment',
+                'Alcohol',
+                'Clothing'
+            ]));
 
             var ctx_bar = document.getElementById('stat2').getContext('2d');
-            window.myPie2 = new Chart(ctx_bar, config_bar);
+            window.myPie2 = new Chart(ctx_bar, f_last_months([1500, 1300, 1700, 800]));
         };
 
-        function makeFull(){
+        async function processData() {
+            let dict1 = new Map(), dict2 = new Map()
+            let spent = 0;
+            let sum = 0;
+
+            for (let el of RECEIPTS) {
+                if (dict1.has(el.shop)) dict1.set(el.shop, dict1.get(el.shop) + 1)
+                else dict1.set(el.shop, 0);
+                sum += el.total;
+                if ((new Date()).getYear() == (new Date(el.date * 1000).getYear()) && (new Date()).getMonth() == (new Date(el.date * 1000).getMonth())) {
+                    spent += el.total;
+                }
+                for (let p of el.products) {
+                    let name = p.name.split(' ')[0]
+                    let price = p.price
+                    if (dict2.has(name)) dict2.set(name, dict2.get(name) + price)
+                    else dict2.set(name, price);
+                }
+            }
+
+            let bestShop = ['', 0]
+            for (let [key, value] of dict1.entries()) {
+                if (value > bestShop[1]) {
+                    bestShop = [key, value]
+                }
+            }
+
+            let bestItem = ['', 0]
+            for (let [key, value] of dict2.entries()) {
+                if (value > bestItem[1]) {
+                    bestItem = [key, value]
+                }
+            }
+
+            let avg = (sum / RECEIPTS.length).toFixed(2);
+            let top_five = TOP_FIVE_TEMPLATE.replace('@SPENT_ON_ITEM@', bestItem[1].toFixed(2)).replace('@ITEM@', bestItem[0]).replace('@SPENT_SO_FAR@', spent.toFixed(2)).replace('@SHOP@', bestShop[0]).replace('@SHOP_TIMES@', bestShop[1]).replace('@AVG_MONTH@', avg);
+            topFive.innerHTML = top_five;
+        }
+
+        function makeFull() {
             modalBody.innerHTML = '<div class="gridReceipts">' + receiptsList.innerHTML + '</div>';
         }
 
-        function fakseSettings(){
+        function fakseSettings() {
             modalBody.innerHTML = 'Coming soon';
+        }
+
+
+        function createReceiptList(o) {
+            let receipts = "";
+            let str = search.value.toLowerCase() || '$$$$';
+            for (let el of o) {
+                let header = RECEIPT_TEMPLATE_HEADER.replace('@SHOP@', el.shop + `<br><span class="total-price">\$${el.total.toFixed(2)}</span>`).replace('@DATE@', getFormattedDate(el.date));
+                let prices = "";
+                for (let p of el.products) {
+                    let highlight = '';
+                    if (p.name.toLowerCase().startsWith(str)) {
+                        highlight = 'highlight';
+                    }
+                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', p.name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price.toFixed(2)).replace('@HIGHLIGHT@', highlight);
+                }
+                let body = RECEIPT_TEMPLATE_BODY.replace('@PRICES@', prices);
+                let receipt = header.replace('@BODY@', body);
+                // console.log(receipt);
+                receipts += receipt;
+            }
+            return receipts;
+        }
+
+        async function displayStats(name) {
+            searchStats.classList.remove('hidden');
+            let stats = SEARCH_STATS_TEMPLATE.replace(/@NAME@/g, name);
+            searchStats.innerHTML = stats;
+        }
+
+        search.oninput = function (e) {
+            let str = search.value;
+            if (!str) {
+                searchStats.classList.add('hidden');
+                return;
+            }
+            displayStats(search.value);
+            let o = [];
+            for (let el of RECEIPTS) {
+                for (let p of el.products) {
+                    if (p.name.toLowerCase().startsWith(str)) o.push(el)
+                }
+            }
+            receiptsList.innerHTML = createReceiptList(o);
         }
 
     </script>

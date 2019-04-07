@@ -329,29 +329,30 @@
                 for (let j = 0; j < 2; j++) {
                     document.getElementById(`select${i+1}${j}`).addEventListener('change', event => {
                         let s = category_stats[document.getElementById(`select${i+1}`).value];
-                        for (let field of ['price', 'quantity']) {
-                            let scope = "";
-                            let s0 = document.getElementById(`select${i+1}0`);
-                            switch (s0.options[s0.selectedIndex].value) {
-                                case 'You':
-                                    scope = "userTop";
-                                    break;
-                                case 'Friend':
-                                    scope = "friendsTop";
-                                    break;
-                                case 'Local':
-                                    scope = "globalTop";
-                                    break;
-                            }
-                            let p_chart_data = s[scope][field].map(p => p[field]);
-                            let p_chart_labels = s[scope][field].map(p => p.name);
-                            let p_canvas = document.getElementById(`productbar${i+1}_${field}`);
-                            let p_ctx_bar = p_canvas.getContext('2d');
-                            p_ctx_bar.clearRect(0, 0, p_canvas.width, p_canvas.height);
-                            window[`productbar${i+1}_${field}`].destroy();
-                            let p_product_bar = f_product_bar(p_chart_data, p_chart_labels);
-                            window[`productbar${i+1}_${field}`] = new Chart(p_ctx_bar, p_product_bar);
+
+                        let s0 = document.getElementById(`select${i+1}${j}`);
+                        switch (s0.options[s0.selectedIndex].value) {
+                            case 'You':
+                                scope = "userTop";
+                                break;
+                            case 'Friend':
+                                scope = "friendsTop";
+                                break;
+                            case 'Local':
+                                scope = "globalTop";
+                                break;
                         }
+
+                        let field = ['price', 'quantity'][j];
+
+                        let p_chart_data = s[scope][field].map(p => p[field]);
+                        let p_chart_labels = s[scope][field].map(p => p.name);
+                        let p_canvas = document.getElementById(`productbar${i+1}_${field}`);
+                        let p_ctx_bar = p_canvas.getContext('2d');
+                        p_ctx_bar.clearRect(0, 0, p_canvas.width, p_canvas.height);
+                        window[`productbar${i+1}_${field}`].destroy();
+                        let p_product_bar = f_product_bar(p_chart_data, p_chart_labels);
+                        window[`productbar${i+1}_${field}`] = new Chart(p_ctx_bar, p_product_bar);
                     });
                 }
             }

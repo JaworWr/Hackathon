@@ -28,6 +28,9 @@ function f_product_bar(chart_data, chart_labels) {
                     minBarLength: 10,
                     gridLines: {
                         offsetGridLines: true
+                    },
+                    ticks: {
+                        beginAtZero: true
                     }
                 }]
             }

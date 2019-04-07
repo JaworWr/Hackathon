@@ -211,17 +211,16 @@
     <script src="/scripts/charts/summary_bar.js"></script>
 
     <script>
-        let category_stats = {
-            Food: null,
-            Entertainment: null,
-            Health: null,
-            Clothing: null,
-            Electronics: null,
-            Travel: null
-        }
-        let count = 6;
-        let totals =
         window.onload = function () {
+            let category_stats = {
+                Food: null,
+                Entertainment: null,
+                Health: null,
+                Clothing: null,
+                Electronics: null,
+                Travel: null
+            }
+            let count = 6;
             for (cat in category_stats) {
                 let req = new XMLHttpRequest();
                 req.open('get', `category_stats?category=${cat}`);
@@ -253,38 +252,29 @@
                 req.send();
             }
 
-
-            // var ctx_bar = document.getElementById('tagbar1').getContext('2d');
-            // window.tagBar1 = new Chart(ctx_bar, tag_bar);
-
-            // var ctx_bar = document.getElementById('productbar1_price').getContext('2d');
-            // window.productBar1Price = new Chart(ctx_bar, product_bar);
-
-            // var ctx_bar = document.getElementById('productbar1_quantity').getContext('2d');
-            // window.productBar1Quantity = new Chart(ctx_bar, product_bar);
-
-            // var ctx_bar = document.getElementById('tagbar2').getContext('2d');
-            // window.tagBar1 = new Chart(ctx_bar, tag_bar);
-
-            // var ctx_bar = document.getElementById('productbar2_price').getContext('2d');
-            // window.productBar1Price = new Chart(ctx_bar, product_bar);
-
-            // var ctx_bar = document.getElementById('productbar2_quantity').getContext('2d');
-            // window.productBar1Quantity = new Chart(ctx_bar, product_bar);
-
-            // var ctx_bar = document.getElementById('tagbar3').getContext('2d');
-            // window.tagBar1 = new Chart(ctx_bar, tag_bar);
-
-            // var ctx_bar = document.getElementById('productbar3_price').getContext('2d');
-            // window.productBar1Price = new Chart(ctx_bar, product_bar);
-
-            // var ctx_bar = document.getElementById('productbar3_quantity').getContext('2d');
-            // window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+            let totals = null;
+            let t_req = new XMLHttpRequest();
+            t_req.open('get', '/totals');
+            t_req.onreadystatechange = function() {
+                if (t_req.readyState == XMLHttpRequest.DONE) {
+                    totals = JSON.parse(t_req.responseText);
+                    let chart_data = [];
+                    let chart_labels = [];
+                    for (cat in totals.user) {
+                        chart_data.push(totals.user[cat].price);
+                        chart_labels.push(cat);
+                    }
+                    let ctx_bar = document.getElementById('summarypie').getContext('2d');
+                    let summary_pie = f_summary_pie(chart_data, chart_labels);
+                    window.summaryPie = new Chart(ctx_bar, summary_pie);
+                }
+            }
+            t_req.send();
 
             /* rest */
 
-            var ctx_bar = document.getElementById('summarypie').getContext('2d');
-            window.summaryPie = new Chart(ctx_bar, summary_pie);
+            // var ctx_bar = document.getElementById('summarypie').getContext('2d');
+            // window.summaryPie = new Chart(ctx_bar, summary_pie);
 
             var ctx_bar = document.getElementById('summaryspending').getContext('2d');
             window.summarySpending = new Chart(ctx_bar, summary_spending);

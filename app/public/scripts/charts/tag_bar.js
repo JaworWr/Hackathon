@@ -30,6 +30,11 @@ function f_tag_bar(chart_data){
                     gridLines: {
                         offsetGridLines: true
                     }
+                }],
+                yAxes:[{
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }]
             }
         }

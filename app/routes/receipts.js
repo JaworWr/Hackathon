@@ -148,4 +148,11 @@ module.exports = function(app) {
         }
         res.json(totals);
     })
+
+    app.get('/top', (req, res) => {
+        loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        let {receipts} = app.locals;
+        let {price, quantity} = topProducts(receipts, null, 1);
+        res.json({price: price[0], quantity: quantity[0]});
+    })
 }

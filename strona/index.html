@@ -81,24 +81,8 @@
                         <div class="panel-heading">
                             Top Five
                         </div>
-                        <div class="panel-body">
-                            <ol class="list-group">
-                                <li class="list-group-item">
-                                    You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
-                                </li>
-                                <li class="list-group-item">
-                                    You spent <span class=result>$800</span> this month.
-                                </li>
-                                <li class="list-group-item">
-                                    You spend <span class=result>$1500</span> on average.
-                                </li>
-                                <li class="list-group-item">
-                                    You saved <span class=result>100</span> trees!
-                                </li>
-                                <li class="list-group-item">
-                                    You visit <span class=result>TESCO</span> the most.
-                                </li>
-                            </ol>
+                        <div class="panel-body" id="topFive">
+                            
                         </div>
                     </div>
                 </div>
@@ -226,6 +210,7 @@
             let o = await (await fetch('receipts.json')).text()
             RECEIPTS = JSON.parse(o);
             receiptsList.innerHTML = createReceiptList(RECEIPTS);
+            processData();
             // receiptsList.children.forEach(e=>e.classList.add('active'));
             // receiptsList.onmousewheel = WheelHandler;
 
@@ -235,6 +220,45 @@
             var ctx_bar = document.getElementById('stat2').getContext('2d');
             window.myPie2 = new Chart(ctx_bar, f_last_months([1500,1300,1700,800]));
         };
+
+        async function processData(){
+            let dict1 = new Map(), dict2 = new Map()
+            let spent = 0;
+            let sum = 0;
+
+            for(let el of RECEIPTS){
+                if(dict1.has(el.shop)) dict1.set(el.shop, dict1.get(el.shop)+1)
+                else dict1.set(el.shop,0);
+                sum += el.total;
+                if((new Date()).getYear() == (new Date(el.date*1000).getYear()) && (new Date()).getMonth() == (new Date(el.date*1000).getMonth())){
+                    spent += el.total;
+                }
+                for(let p of el.products){
+                    let name = p.name.split(' ')[0]
+                    let price = p.price
+                    if(dict2.has(name)) dict2.set(name, dict2.get(name) + price)
+                    else dict2.set(name, price);
+                }
+            }
+
+            let bestShop = ['', 0]
+            for(let [key, value] of dict1.entries()){
+                if(value > bestShop[1]){
+                    bestShop = [key, value]
+                }
+            }
+
+            let bestItem = ['', 0]
+            for(let [key, value] of dict2.entries()){
+                if(value > bestItem[1]){
+                    bestItem = [key, value]
+                }
+            }
+
+            let avg = (sum/RECEIPTS.length).toFixed(2);
+            let top_five = TOP_FIVE_TEMPLATE.replace('@SPENT_ON_ITEM@', bestItem[1].toFixed(2)).replace('@ITEM@',bestItem[0]).replace('@SPENT_SO_FAR@', spent.toFixed(2)).replace('@SHOP@', bestShop[0]).replace('@SHOP_TIMES@', bestShop[1]).replace('@AVG_MONTH@', avg);
+            topFive.innerHTML = top_five;
+        }
 
         function makeFull(){
             modalBody.innerHTML = '<div class="gridReceipts">' + receiptsList.innerHTML + '</div>';
@@ -249,14 +273,14 @@
             let receipts = "";
             let str = search.value.toLowerCase() || '$$$$';
             for(let el of o){
-                let header = RECEIPT_TEMPLATE_HEADER.replace('@SHOP@', el.shop).replace('@DATE@', getFormattedDate(el.date));
+                let header = RECEIPT_TEMPLATE_HEADER.replace('@SHOP@', el.shop+`<br><span class="total-price">\$${el.total.toFixed(2)}</span>`).replace('@DATE@', getFormattedDate(el.date));
                 let prices = "";
                 for(let p of el.products){
                     let highlight = '';
                     if(p.name.toLowerCase().startsWith(str)){
                         highlight = 'highlight';
                     }
-                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', p.name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price).replace('@HIGHLIGHT@', highlight);
+                    prices += RECEIPT_TEMPLATE_PRICE.replace('@PRODUCT@', p.name).replace('@QUANTITY@', p.quantity).replace('@PRICE@', p.price.toFixed(2)).replace('@HIGHLIGHT@', highlight);
                 }
                 let body = RECEIPT_TEMPLATE_BODY.replace('@PRICES@', prices);
                 let receipt = header.replace('@BODY@', body);

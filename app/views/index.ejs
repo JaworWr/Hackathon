@@ -139,7 +139,7 @@
         </div>
     </div>
 
-    <a id="buttonAdd" href="#">
+    <a id="buttonAdd" href="/upload">
         <span class="glyphicon glyphicon-plus my-float"></span>
     </a>
 
@@ -338,7 +338,10 @@
 
         async function displayStats(name) {
             searchStats.classList.remove('hidden');
-            let stats = SEARCH_STATS_TEMPLATE.replace(/@NAME@/g, name);
+            let data = await (await fetch('/product_stats?product='+name)).text();
+            let json =  JSON.parse(data);
+            console.log(json);
+            let stats = SEARCH_STATS_TEMPLATE.replace(/@NAME@/g, name).replace('@ITEM_AVG@', json.user.avg.toFixed(2)).replace('@FRIENDS_AVG@', json.friends.avg.toFixed(2)).replace('@LOCAL_AVG@', json.global.avg.toFixed(2)).replace('@SPENT_ON_ITEM@', json.user.price.toFixed(2)).replace('@CLOSEST_SHOP@', json.shop);
             searchStats.innerHTML = stats;
         }
 
@@ -356,6 +359,7 @@
                 }
             }
             receiptsList.innerHTML = createReceiptList(o);
+            
         }
 
     </script>

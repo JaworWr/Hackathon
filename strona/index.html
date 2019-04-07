@@ -292,8 +292,10 @@
 
         async function displayStats(name){
             searchStats.classList.remove('hidden');
+            
             let stats = SEARCH_STATS_TEMPLATE.replace(/@NAME@/g, name);
             searchStats.innerHTML = stats;
+
         }
 
         search.oninput = function(e){

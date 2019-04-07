@@ -42,16 +42,16 @@ var SEARCH_STATS_TEMPLATE = `
 <div class="panel-body">
     <ol class="list-group">
         <li class="list-group-item">
-            Your avarage price on <span class=result>@NAME@</span> is <span class=result>@ITEM_AVG@</span>.
+            Your avarage price on <span class=result>@NAME@</span> is <span class=result>$@ITEM_AVG@</span>.
         </li>
         <li class="list-group-item">
-            Your friends avarage is <span class=result>@FRIENDS_AVG@</span>.
+            Your friends avarage is <span class=result>$@FRIENDS_AVG@</span>.
         </li>
         <li class="list-group-item">
-            Local average is <span class=result>@LOCAL_AVG@</span>.
+            Local average is <span class=result>$@LOCAL_AVG@</span>.
         </li>
         <li class="list-group-item">
-            Your total money spent on <span class=result>@NAME@</span> this month is <span class=result>@SPENT_ON_ITEM@</span>.
+            Your total money spent on <span class=result>@NAME@</span> this month is <span class=result>$@SPENT_ON_ITEM@</span>.
         </li>
         <li class="list-group-item">
             You can buy the product in <span class=result>@CLOSEST_SHOP@</span>.

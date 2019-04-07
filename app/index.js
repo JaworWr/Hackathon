@@ -28,4 +28,8 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
+app.get('/stats', (req, res) => {
+    res.render('stats.ejs');
+})
+
 app.listen(3000);

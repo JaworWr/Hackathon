@@ -1,17 +1,277 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://unpkg.com/react@16/umd/react.production.min.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js" crossorigin></script>
-    <script src="/scripts/stats.js"></script>
-    <title>Document</title>
+    <title>CodePen - Twitter layout html css</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/css/style.css'>
+    <link rel='stylesheet' href='/css/receipt.css'>
+    <link rel='stylesheet' href='/css/button-image.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+
+    <script>
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 120 + 20);
+        };
+        window.addEventListener('load', () => window.resizeTo(1, 1));
+    </script>
 </head>
-<body>
-    Hello there!<br>
-    <div id="root"></div>
-    <script src="/scripts/receipts.js"></script>
+
+<body translate="no">
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-collapse navbar-collapse-1 collapse" aria-expanded="true">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                    <li>
+                        <a href="#fake" onclick="fakseSettings()" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-stats"></span> Settings</a>
+                    </li>
+                    <li>
+                        <a href="stats.html"><span class="glyphicon glyphicon-signal"></span> Stats</a>
+                    </li>
+                    <li>
+                        <a onclick="displayReceipts()" href="#receipts" data-toggle="modal" data-target="#myModal"><span
+                                class="glyphicon glyphicon-list-alt"></span> Receipts</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Welcome back xox!</div>
+                    <div class="panel-body">
+                        <a href="#">
+                            <img class="img-responsive" alt="" src="myAvatar.png">
+                        </a>
+                        <!-- <div class="row">
+                            <div class="col-xs-3">
+                                <h5>
+                                    <small>TWEETS</small>
+                                    <a href="#">1,545</a>
+                                </h5>
+                            </div>
+                            <div class="col-xs-4">
+                                <h5>
+                                    <small>FOLLOWING</small>
+                                    <a href="#">251</a>
+                                </h5>
+                            </div>
+                            <div class="col-xs-5">
+                                <h5>
+                                    <small>FOLLOWERS</small>
+                                    <a href="#">153</a>
+                                </h5>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Your statistic1
+                    </div>
+                    <div class="panel-body square-pie">
+                        <canvas id="stat1"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Compared wydatki
+                    </div>
+                    <div class="panel-body">
+                        <canvas id="stat2"></canvas>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Top Five
+                        </div>
+                        <div class="panel-body">
+                            <ol class="list-group">
+                                <li class="list-group-item">
+                                    You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
+                                </li>
+                                <li class="list-group-item">
+                                    You spent <span class=result>$800</span> this month.
+                                </li>
+                                <li class="list-group-item">
+                                    You spend <span class=result>$1500</span> on average.
+                                </li>
+                                <li class="list-group-item">
+                                    You saved <span class=result>100</span> trees!
+                                </li>
+                                <li class="list-group-item">
+                                    You visit <span class=result>TESCO</span> the most.
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Something2
+                        </div>
+                        <div class="panel-body">
+                            <canvas id="stat2"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="has-feedback custom-search">
+                            <input type="text" class="form-group" id="search" aria-describedby="search1">
+                            <span class="glyphicon glyphicon-search search-icon" aria-hidden="true"></span>
+                            <a href='#fake' onclick="makeFull()"><span class="glyphicon glyphicon-fullscreen fullscreen-icon" data-toggle="modal" data-target="#myModal"></span></a>
+                        </div>
+
+                    </div>
+                    <div class="panel-body listReceipts" id="receiptsList">
+
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        Search Stats for <span class=result>food</span>
+                    </div>
+                    <div class="panel-body">
+                        <ol class="list-group">
+                            <li class="list-group-item">
+                                You spent <span class=result>$300</span> on <span class=result>Cofee</span>!
+                            </li>
+                            <li class="list-group-item">
+                                You spent <span class=result>$800</span> this month.
+                            </li>
+                            <li class="list-group-item">
+                                You spend <span class=result>$1500</span> on average.
+                            </li>
+                            <li class="list-group-item">
+                                You saved <span class=result>100</span> trees!
+                            </li>
+                            <li class="list-group-item">
+                                You visit <span class=result>TESCO</span> the most.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+
+    <div class="modal fade" id="myModal" tabindex=-1 role="dialog">
+        <div class="modal-dialog custom-modal" role="document">
+            <div class="">
+                <div id="modalBody" class="col-md-12">
+                    DYNAMIC CONTENT HERE
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a id="buttonAdd" href="#">
+        <span class="glyphicon glyphicon-plus my-float"></span>
+    </a>
+
+    <script src="/scripts/example_receipt.js"></script>css/
+    <script src="/scripts/example_pie.js"></script>
+    <script src="/scripts/example_bar.js"></script>
+
+    <script>
+        // var lastOffset = 0;
+        // var currentActive = 0;
+        // var offset = 0;
+        // function WheelHandler(e) {
+        //     let height0 = parseFloat(receiptsList.children[currentActive].clientHeight);
+        //     let height1 = parseFloat(receiptsList.children[currentActive+1].clientHeight);
+
+        //     console.log(currentActive);
+        //     console.log(height1, e.y)
+        //     if(currentActive < 0) return;
+        //     if(currentActive >= receiptsList.children.length+1) return;
+
+        //     if(height0 <= 30){
+        //         currentActive++; 
+        //     }
+        //     if(height0 >= 600){
+        //         currentActive--; 
+        //     }
+        //     offset += e.deltaY;
+        //     let change = offset - lastOffset;
+        //     // console.log(e.y);
+        //     if(Math.abs(change) > 0.001){
+        //         let c = change < 0? -20 : 20;
+        //         receiptsList.children[currentActive].style.height = (height0 - c) + 'px';
+        //         // if()
+        //         receiptsList.children[currentActive+1].style.height = (height1 + c) + 'px';
+        //         lastOffset = offset;
+        //     }
+        //     // console.log(e.offsetY)
+        // }
+
+        function displayReceipts() {
+            modalBody.innerHTML = '<div class="gridReceipts">' + RECEIPT_EXAMPLE.repeat(30) + '</div>';
+        }
+
+        window.onload = function () {
+
+            receiptsList.innerHTML = RECEIPT_EXAMPLE.repeat(10);
+            // receiptsList.children.forEach(e=>e.classList.add('active'));
+            // receiptsList.onmousewheel = WheelHandler;
+
+
+
+
+            var ctx_pie = document.getElementById('stat1').getContext('2d');
+            window.myPie = new Chart(ctx_pie, config_pie);
+
+            var ctx_bar = document.getElementById('stat2').getContext('2d');
+            window.myPie2 = new Chart(ctx_bar, config_bar);
+        };
+
+        function makeFull(){
+            modalBody.innerHTML = '<div class="gridReceipts">' + receiptsList.innerHTML + '</div>';
+        }
+
+        function fakseSettings(){
+            modalBody.innerHTML = 'Coming soon';
+        }
+
+    </script>
+
+
 </body>
+
 </html>

@@ -1,0 +1,143 @@
+.listReceipts{
+  max-height: 400px;
+  overflow: hidden;
+  overflow-y: auto;
+}
+
+.receipt {
+    /* box-shadow: 20px 20px; */
+    /* padding: 2mm; */
+    margin: 0 auto;
+    width: 100%;
+    background: #FFF;
+    border: 1px rgba(0,0,0,0.2) solid;
+    /* max-height:50px; */
+    margin: 5px 5px;
+    border-radius: 5px;
+}
+
+
+.listReceipts .receipt{
+  /* height: 50px; */
+  /* transition: height 0.6s ease-out 0.1s; */
+  overflow: hidden;
+}
+
+
+.receipt.front{
+  height:100%;
+}
+
+.receipt.active{
+  /* transition: height 0.2s ease-in; */
+  /* max-height: 500px; */
+  height:300px
+}
+
+
+.receipt-top{
+  background:rgb(251, 183, 183);
+  margin:0;
+  padding:10px;
+  cursor:pointer;
+  color: #824242;
+  font-weight: 600;
+}
+
+.receipt-body{
+  padding:5px;
+  overflow: hidden;
+}
+
+
+
+.receipt ::selection {
+  background: #f31544;
+  color: #FFF;
+}
+.receipt ::moz-selection {
+  background: #f31544;
+  color: #FFF;
+}
+.receipt h1 {
+  font-size: 1.5em;
+  color: #222;
+}
+.receipt h2 {
+  font-size: 11px;
+}
+.receipt h3 {
+  font-size: 1.2em;
+  font-weight: 300;
+  line-height: 2em;
+}
+.receipt p {
+  font-size: .7em;
+  color: #666;
+  line-height: 1.2em;
+}
+.receipt #top, .receipt #mid, .receipt #bot {
+  /* Targets all id with 'col-' */
+  border-bottom: 1px solid #EEE;
+}
+.receipt #top {
+  min-height: 100px;
+ 
+}
+.receipt #mid {
+  min-height: 80px;
+}
+.receipt #bot {
+  min-height: 50px;
+}
+
+.receipt .clientlogo {
+  float: left;
+  height: 60px;
+  width: 60px;
+  background: url(http://michaeltruong.ca/images/client.jpg) no-repeat;
+  background-size: 60px 60px;
+  border-radius: 50px;
+}
+.receipt .info {
+  display: block;
+  margin-left: 0;
+}
+.receipt .title {
+  float: right;
+  color: #fff6f6;
+}
+
+.receipt table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.receipt .tabletitle {
+  font-size: .5em;
+  background: #EEE;
+}
+.receipt .service {
+  border-bottom: 1px solid #EEE;
+}
+.receipt .item {
+  width: 24mm;
+}
+.receipt .itemtext {
+  font-size: 13px;
+}
+
+.input-group.md-form.form-sm.form-2 input.red-border  {
+  border: 1px solid #ef9a9a;
+}
+
+.tableitem{
+  padding:5px;
+  word-wrap: break-word;
+}
+.gridReceipts .receipt{
+  max-width:300px;
+  display: blcok;
+  float: left;
+}
+
+

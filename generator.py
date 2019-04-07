@@ -69,25 +69,25 @@ def Hotel():
 
 def Starbucks():
     q = random.randint(1, 2)
-    return random.choice([("Espresso", 2.30, q, False), ("Cappuccino", 4.30, q, False), ("Flat white", 3.00, q, False), ("Latte", 4.30, q, False),\
-                  ("Tiramisu", 4.00, q, False), ("Frappuccino", 4.30, q, False), ("Cheesecake", 3.50, q, False), ("Tea", 2.50, q, False)])
+    return random.choice([("Espresso", 2.30 * q, q, False), ("Cappuccino", 4.30 * q, q, False), ("Flat white", 3.00 * q, q, False), ("Latte", 4.30 * q, q, False),\
+                  ("Tiramisu", 4.00 * q, q, False), ("Frappuccino", 4.30 * q, q, False), ("Cheesecake", 3.50 * q, q, False), ("Tea", 2.50 * q, q, False)])
 
 def Mac():
     q = random.randint(1, 2)
-    return random.choice([("Hamburger", 2.30, q, False), ("McWrap", 3.30, q, False), ("Big Mac", 4.30, q, False), ("Coffee", 1.50, q, False),\
-                  ("French Fries", 1.50, q, False), ("Cheeseburger", 2.70, q, False), ("IceCream", 1.70, q, False), ("McNuggets", 2.40, q, False)])
+    return random.choice([("Hamburger", 2.30 * q, q, False), ("McWrap", 3.30 * q, q, False), ("Big Mac", 4.30 * q, q, False), ("Coffee", 1.50 * q, q, False),\
+                  ("French Fries", 1.50 * q, q, False), ("Cheeseburger", 2.70 * q, q, False), ("IceCream", 1.70 * q, q, False), ("McNuggets", 2.40 * q, q, False)])
 
 def KFC():
     q = random.randint(1, 2)
-    return random.choice([("Longer", 2.60, q, False), ("Grander", 4.50, q, False), ("Coffee", 2.00, q, False), ("Chicken Wings", 2.00, q, False),\
-                  ("French Fries", 1.30, q, False), ("Zinger", 2.90, q, False), ("Shake", 1.70, q, False), ("B-Smart", 3.00, q, False) ])
+    return random.choice([("Longer", 2.60 * q, q, False), ("Grander", 4.50 * q, q, False), ("Coffee", 2.00 * q, q, False), ("Chicken Wings", 2.00 * q, q, False),\
+                  ("French Fries", 1.30 * q, q, False), ("Zinger", 2.90 * q, q, False), ("Shake", 1.70 * q, q, False), ("B-Smart", 3.00 * q, q, False) ])
 
 def Pizza():
     q = random.randint(1, 2)
-    return random.choice([("Small Pizza", 4.00, q, False), ("Medium Pizza", 6.00, q, False), ("Coffee", 1.90, q, False),\
-                  ("Hot Chocolate Cake", 2.30, q, False), ("Tea", 1.90, q, False), ("Big Pizza", 8.00, q, False), ("Lemonade", 1.70, q, False)])
+    return random.choice([("Small Pizza", 4.00 * q, q, False), ("Medium Pizza", 6.00 * q, q, False), ("Coffee", 1.90 * q, q, False),\
+                  ("Hot Chocolate Cake", 2.30 * q, q, False), ("Tea", 1.90 * q, q, False), ("Big Pizza", 8.00 * q, q, False), ("Lemonade", 1.70 * q, q, False)])
 
-categories = ["Food"] * 21 + ["Clothing"] * 9 + ["Electronics"] + ["Entertainment"] * 6 + ["Travel"] * 6 + ["Health"] * 3 + ["Market"] * 27
+categories = ["Food"] * 18 + ["Clothing"] * 10 + ["Electronics"] + ["Entertainment"] * 3 + ["Travel"] * 3 + ["Health"] * 2 + ["Market"] * 30
 
 shops_by_category =\
 {
@@ -263,7 +263,7 @@ def generate(count):
 
     return json.dumps(res)
 
-f = open("receipts.json","w")
+f = open("receipts_all.json","w")
 
 f.write(generate(int(input())))
 f.close()

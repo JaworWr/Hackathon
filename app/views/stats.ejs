@@ -67,7 +67,7 @@
                     <div class="panel-body">
                         <canvas id="tagbar1"></canvas>
                     </div>
-                    <select class="form-control form-control-sm">
+                    <select class="form-control form-control-sm" id="select10">
                         <option>You</option>
                         <option>Friend</option>
                         <option>Local</option>
@@ -76,7 +76,7 @@
                         Price
                         <canvas id="productbar1_price"></canvas>
                     </div>
-                    <select class="form-control form-control-sm">
+                    <select class="form-control form-control-sm" id="select11">
                             <option>You</option>
                             <option>Friend</option>
                             <option>Local</option>
@@ -106,7 +106,7 @@
                         <div class="panel-body">
                             <canvas id="tagbar2"></canvas>
                         </div>
-                        <select class="form-control form-control-sm">
+                        <select class="form-control form-control-sm" id="select20">
                             <option>You</option>
                             <option>Friend</option>
                             <option>Local</option>
@@ -115,7 +115,7 @@
                             Price
                             <canvas id="productbar2_price"></canvas>
                         </div>
-                        <select class="form-control form-control-sm">
+                        <select class="form-control form-control-sm" id="select21">
                                 <option>You</option>
                                 <option>Friend</option>
                                 <option>Local</option>
@@ -145,7 +145,7 @@
                             <div class="panel-body">
                                 <canvas id="tagbar3"></canvas>
                             </div>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" id="select30">
                                 <option>You</option>
                                 <option>Friend</option>
                                 <option>Local</option>
@@ -154,7 +154,7 @@
                                 Price
                                 <canvas id="productbar3_price"></canvas>
                             </div>
-                            <select class="form-control form-control-sm">
+                            <select class="form-control form-control-sm" id="select31">
                                     <option>You</option>
                                     <option>Friend</option>
                                     <option>Local</option>
@@ -301,8 +301,21 @@
                     window[`tagbar${i+1}`] = new Chart(ctx_bar, tag_bar);
 
                     for (let field of ['price', 'quantity']) {
-                        let p_chart_data = s.userTop[field].map(p => p[field]);
-                        let p_chart_labels = s.userTop[field].map(p => p.name);
+                        let scope = "";
+                        let s0 = document.getElementById(`select${i+1}0`);
+                        switch (s0.options[s0.selectedIndex].value) {
+                            case 'You':
+                                scope = "userTop";
+                                break;
+                            case 'Friend':
+                                scope = "friendsTop";
+                                break;
+                            case 'Local':
+                                scope = "globalTop";
+                                break;
+                        }
+                        let p_chart_data = s[scope][field].map(p => p[field]);
+                        let p_chart_labels = s[scope][field].map(p => p.name);
                         let p_canvas = document.getElementById(`productbar${i+1}_${field}`);
                         let p_ctx_bar = p_canvas.getContext('2d');
                         p_ctx_bar.clearRect(0, 0, canvas.width, canvas.height);
@@ -311,7 +324,14 @@
                         window[`productbar${i+1}_${field}`] = new Chart(p_ctx_bar, p_product_bar);
                     }
                 });
+
+                for (let j = 0; j < 2; j++) {
+                    document.getElementById(`select${i+1}${j}`).addEventListener('change', event => {
+                        
+                    });
+                }
             }
+
         };
         
     </script>

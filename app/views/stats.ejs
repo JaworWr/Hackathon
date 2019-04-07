@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>CodePen - Twitter layout html css</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='/css/style.css'>
+    <link rel='stylesheet' href='/css/receipt.css'>
+    <link rel='stylesheet' href='/css/button-image.css'>
+    <link rel="stylesheet" href='/css/stats.css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script src="https://www.chartjs.org/dist/2.8.0/Chart.min.js"></script>
+
+    <script>
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 120 + 20);
+        };
+        window.addEventListener('load', () => window.resizeTo(1, 1));
+    </script>
+</head>
+
+<body translate="no">
+    <div class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-collapse navbar-collapse-1 collapse" aria-expanded="true">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="/"><span class="glyphicon glyphicon-home"></span> Home</a>
+                    </li>
+                    <li>
+                        <a href="#fake"><span class="glyphicon glyphicon-cog"></span> Settings</a>
+                    </li>
+                    <li class="active">
+                        <a href="/stats.html"><span class="glyphicon glyphicon-signal"></span> Stats</a>
+                    </li>
+                    <li>
+                        <a onclick="displayReceipts()" href="#receipts" data-toggle="modal" data-target="#myModal"><span
+                                class="glyphicon glyphicon-list-alt"></span> Receipts</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default stats-all">
+                    <div class="panel-heading clearfix">
+                        <div class="pull-right">
+                                <select class="form-control form-control-sm header-select">
+                                        <option>Food</option>
+                                        <option>Health</option>
+                                        <option>Travel</option>
+                                        <option>Fun</option>
+                                        <option>Clothes</option>
+                                    </select>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="panel-body">
+                        <canvas id="tagbar1"></canvas>
+                    </div>
+                    <select class="form-control form-control-sm">
+                        <option>You</option>
+                        <option>Friend</option>
+                        <option>Local</option>
+                    </select>
+                    <div class="panel-body">
+                        Price
+                        <canvas id="productbar1_price"></canvas>
+                    </div>
+                    <select class="form-control form-control-sm">
+                            <option>You</option>
+                            <option>Friend</option>
+                            <option>Local</option>
+                    </select>
+                    <div class="panel-body">
+                        Quantity
+                        <canvas id="productbar1_quantity"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                    <div class="panel panel-default stats-all">
+                        <div class="panel-heading clearfix">
+                            <div class="pull-right">
+                                    <select class="form-control form-control-sm header-select">
+                                            <option>Food</option>
+                                            <option>Health</option>
+                                            <option>Travel</option>
+                                            <option>Fun</option>
+                                            <option>Clothes</option>
+                                        </select>
+                            </div>
+                            
+                        </div>
+                        
+                        <div class="panel-body">
+                            <canvas id="tagbar2"></canvas>
+                        </div>
+                        <select class="form-control form-control-sm">
+                            <option>You</option>
+                            <option>Friend</option>
+                            <option>Local</option>
+                        </select>
+                        <div class="panel-body">
+                            Price
+                            <canvas id="productbar2_price"></canvas>
+                        </div>
+                        <select class="form-control form-control-sm">
+                                <option>You</option>
+                                <option>Friend</option>
+                                <option>Local</option>
+                        </select>
+                        <div class="panel-body">
+                            Quantity
+                            <canvas id="productbar2_quantity"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                        <div class="panel panel-default stats-all">
+                            <div class="panel-heading clearfix">
+                                <div class="pull-right">
+                                        <select class="form-control form-control-sm header-select">
+                                                <option>Food</option>
+                                                <option>Health</option>
+                                                <option>Travel</option>
+                                                <option>Fun</option>
+                                                <option>Clothes</option>
+                                            </select>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="panel-body">
+                                <canvas id="tagbar3"></canvas>
+                            </div>
+                            <select class="form-control form-control-sm">
+                                <option>You</option>
+                                <option>Friend</option>
+                                <option>Local</option>
+                            </select>
+                            <div class="panel-body">
+                                Price
+                                <canvas id="productbar3_price"></canvas>
+                            </div>
+                            <select class="form-control form-control-sm">
+                                    <option>You</option>
+                                    <option>Friend</option>
+                                    <option>Local</option>
+                            </select>
+                            <div class="panel-body">
+                                Quantity
+                                <canvas id="productbar3_quantity"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+            <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Summary
+                        </div>
+                        <div class="panel-body">
+                                <div class="col-md-4">
+                                        <canvas id="summarypie"></canvas>
+                                </div>
+                                <div class="col-md-8">
+                                        <canvas id="summaryspending"></canvas>
+                                </div>
+                                
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="modal fade" id="myModal" tabindex=-1 role="dialog">
+        <div class="modal-dialog custom-modal" role="document">
+            <div class="">
+                <div id="modalBody" class="col-md-12">
+                    DYNAMIC CONTENT HERE
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a id="buttonAdd" href="#">
+        <span class="glyphicon glyphicon-plus my-float"></span>
+    </a>
+
+    <!-- <script src="example_receipt.js"></script>
+    <script src="example_pie.js"></script>
+    <script src="example_bar.js"></script> -->
+    <script src="/scripts/charts/tag_bar.js"></script>
+    <script src="/scripts/charts/product_bar.js"></script>
+    <script src="/scripts/charts/summary_pie.js"></script>
+    <script src="/scripts/charts/summary_bar.js"></script>
+
+    <script>
+        let category_stats = {
+            Food: {},
+            Entertainment: {},
+            Health: {},
+            Clothing: {},
+            Electronics: {},
+            Travel: {}
+        }
+        let count = 6;
+        let totals =
+        window.onload = function () {
+            for (cat in category_stats) {
+                var req = new XMLHttpRequest();
+                req.open('get', '/category_stats');
+                req.onreadystatechange = function() {
+                    if (req.readyState == XMLHttpRequest.DONE) {
+                        stats[cat] = JSON.parse(req.responseText);
+                        count--;
+                    }
+
+                    if (count == 0) {
+                        tag_bar.data = [category_stats.Food.userTotal.price, category_stats.Food.friendsTotal.price, category_stats.Food.globalTotal.price];
+                        //category_stats.Food.userTotal.price
+                    }
+
+                }
+                const form = new FormData();
+                form.append('category', cat);
+                req.send(form);
+            }
+
+
+            var ctx_bar = document.getElementById('tagbar1').getContext('2d');
+            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+
+            var ctx_bar = document.getElementById('productbar1_price').getContext('2d');
+            window.productBar1Price = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('productbar1_quantity').getContext('2d');
+            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('tagbar2').getContext('2d');
+            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+
+            var ctx_bar = document.getElementById('productbar2_price').getContext('2d');
+            window.productBar1Price = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('productbar2_quantity').getContext('2d');
+            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('tagbar3').getContext('2d');
+            window.tagBar1 = new Chart(ctx_bar, tag_bar);
+
+            var ctx_bar = document.getElementById('productbar3_price').getContext('2d');
+            window.productBar1Price = new Chart(ctx_bar, product_bar);
+
+            var ctx_bar = document.getElementById('productbar3_quantity').getContext('2d');
+            window.productBar1Quantity = new Chart(ctx_bar, product_bar);
+
+            /* rest */
+
+            var ctx_bar = document.getElementById('summarypie').getContext('2d');
+            window.summaryPie = new Chart(ctx_bar, summary_pie);
+
+            var ctx_bar = document.getElementById('summaryspending').getContext('2d');
+            window.summarySpending = new Chart(ctx_bar, summary_spending);
+        };
+        
+    </script>
+
+
+</body>
+
+</html>

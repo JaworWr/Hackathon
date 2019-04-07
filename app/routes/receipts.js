@@ -11,7 +11,7 @@ function loadReceipts(path) {
                 products[p.name].quantity += p.quantity;
             }
             else {
-                products[p.name] = {price: p.price, quantity: p.quantity, category: p.category, name: p.name};
+                products[p.name] = {price: p.price, quantity: p.quantity, category: p.category, name: p.name, shop: r.shop};
             }
         })
     })
@@ -103,13 +103,15 @@ function productData(receipts, product) {
     let result = {
         price: 0,
         quantity: 0,
-        avg: 0
+        avg: 0,
+        shop: "TESCO"
     }
     for (p in products) {
         if (p.toLowerCase().startsWith(product)) {
             result.price = products[p].price;
             result.quantity = products[p].quantity;
             result.avg = products[p].price / products[p].quantity;
+            result.shop = products[p].shop;
             return result;
         }
     }
@@ -183,6 +185,7 @@ module.exports = function(app) {
             friends: productData(friendReceipts, product),
             global: productData(globalReceipts, product)
         }
+        totals.shop = totals.user.shop;
         res.json(totals);
     })
 }

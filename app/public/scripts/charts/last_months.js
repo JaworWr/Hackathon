@@ -1,4 +1,4 @@
-function f_last_months(data){
+function f_last_months(data, labels){
     return {
         type: 'bar',
         data: {
@@ -13,12 +13,7 @@ function f_last_months(data){
                 ],
                 label: 'Ostatnie wydatki'
             }],
-            labels: [
-                'January',
-                'February',
-                'March',
-                'April'
-            ]
+            labels: labels
         },
         options: {
             scales: {

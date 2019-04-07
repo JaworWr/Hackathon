@@ -98,6 +98,19 @@ function monthsData(receipts, months=12) {
     return result;
 }
 
+// function productData(products, product) {
+//     result = {
+//         price: 0,
+//         quantity: 0,
+//         avg: 0
+//     }
+//     for (p in products) {
+//         if (p.toLowerCase().startsWith(product)) {
+
+//         }
+//     }
+// }
+
 module.exports = function(app) {
     app.get('/receipts', (req, res) => {
         let receipts = loadReceipts('../receipts.json')
@@ -155,4 +168,8 @@ module.exports = function(app) {
         let {price, quantity} = topProducts(receipts, null, 1);
         res.json({price: price[0], quantity: quantity[0]});
     })
+
+    // app.get('/product_stats', (req, res) => {
+
+    // })
 }

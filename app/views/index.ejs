@@ -145,6 +145,7 @@
 
     <script src="/scripts/example_receipt.js"></script>
     <script src="/scripts/charts/summary_pie.js"></script>
+    <script src="/scripts/charts/summary_bar.js"></script>
     <!-- <script src="example_bar.js"></script> -->
     <script src="/scripts/charts/last_months.js"></script>
 
@@ -217,18 +218,53 @@
             // receiptsList.children.forEach(e=>e.classList.add('active'));
             // receiptsList.onmousewheel = WheelHandler;
 
-            var ctx_pie = document.getElementById('stat1').getContext('2d');
-            window.myPie = new Chart(ctx_pie, f_summary_pie([50, 10, 20, 20, 20, 30], [
-                'Food',
-                'Health',
-                'Travel',
-                'Entertainment',
-                'Alcohol',
-                'Clothing'
-            ]));
-
-            var ctx_bar = document.getElementById('stat2').getContext('2d');
-            window.myPie2 = new Chart(ctx_bar, f_last_months([1500, 1300, 1700, 800]));
+            // var ctx_pie = document.getElementById('stat1').getContext('2d');
+            let totals = null;
+            let t_req = new XMLHttpRequest();
+            t_req.open('get', '/totals');
+            t_req.onreadystatechange = function() {
+                if (t_req.readyState == XMLHttpRequest.DONE) {
+                    totals = JSON.parse(t_req.responseText);
+                    let chart_data = [];
+                    let chart_labels = [];
+                    for (cat in totals.user) {
+                        chart_data.push(totals.user[cat].price);
+                        chart_labels.push(cat);
+                    }
+                    let ctx_bar = document.getElementById('stat1').getContext('2d');
+                    let summary_pie = f_summary_pie(chart_data, chart_labels);
+                    window.summaryPie = new Chart(ctx_bar, summary_pie);
+                }
+            }
+            t_req.send();
+            // window.myPie = new Chart(ctx_pie, f_summary_pie([50, 10, 20, 20, 20, 30], [
+            //     'Food',
+            //     'Health',
+            //     'Travel',
+            //     'Entertainment',
+            //     'Alcohol',
+            //     'Clothing'
+            // ]));
+            let monthTotals = null;
+            let m_req = new XMLHttpRequest();
+            m_req.open('get', '/month_totals?n=4');
+            m_req.onreadystatechange = function() {
+                if (m_req.readyState == XMLHttpRequest.DONE) {
+                    totals = JSON.parse(m_req.responseText);
+                    let chart_data = [];
+                    let chart_labels = [];
+                    for (let i = 0; i < 4; i++) {
+                        chart_data.push(totals.user[i].price);
+                        chart_labels.push(totals.user[i].start);
+                    }
+                    let ctx_bar = document.getElementById('stat2').getContext('2d');
+                    let summary_spending = f_last_months(chart_data, chart_labels);
+                    window.myPie2 = new Chart(ctx_bar, summary_spending);
+                }
+            }
+            m_req.send();
+            // var ctx_bar = document.getElementById('stat2').getContext('2d');
+            // window.myPie2 = new Chart(ctx_bar, f_last_months([1500, 1300, 1700, 800]));
         };
 
         async function processData() {

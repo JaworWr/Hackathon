@@ -206,9 +206,7 @@ module.exports = function(app) {
     
     app.post('/upload', app.locals.upload.single('file'), async function(req, res, next){
         console.log(req.file)
-        // let p = req.file.path;
-        let p = 'uploads/6c0df34c77d673a1c462a0b963c1298';
-        // console.log(path.join(__dirname, '../..', req.file.path))
+        let p = req.file.path;
         const subprocess = runScript(path.join(__dirname, '../..', p))
         // print output of script
         await new Promise(r=>{

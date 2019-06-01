@@ -1,0 +1,30 @@
+{
+  "name": "receiko",
+  "version": "1.0.0",
+  "description": "A tool for managing your receipts.",
+  "main": "app/index.js",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2",
+    "cors": "^2.8.5",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JaworWr/Hackathon.git"
+  },
+  "author": "UWr Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JaworWr/Hackathon/issues"
+  },
+  "homepage": "https://github.com/JaworWr/Hackathon#readme"
+}

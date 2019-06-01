@@ -205,19 +205,19 @@ module.exports = function(app) {
     })
     
     app.post('/upload', app.locals.upload.single('file'), async function(req, res, next){
-        console.log(req.file)
-        let p = req.file.path;
-        const subprocess = runScript(path.join(__dirname, '../..', p))
-        // print output of script
-        await new Promise(r=>{
-            subprocess.stdout.on('data', (data) => {
-                let receipt = JSON.parse(data);
-                console.log(receipt);
-                loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
-                app.locals.receipts.receipts.unshift(receipt);
-                r();
-            });
-        })
+        // console.log(req.file)
+        // let p = req.file.path;
+        // const subprocess = runScript(path.join(__dirname, '../..', p))
+        // // print output of script
+        // await new Promise(r=>{
+        //     subprocess.stdout.on('data', (data) => {
+        //         let receipt = JSON.parse(data);
+        //         console.log(receipt);
+        //         loadAllReceipts(app, '../receipts.json', '../receipts_friends.json', '../receipts_all.json');
+        //         app.locals.receipts.receipts.unshift(receipt);
+        //         r();
+        //     });
+        // })
         
         res.redirect('/');
     });

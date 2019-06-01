@@ -34,4 +34,4 @@ app.get('/stats', (req, res) => {
     res.render('stats.ejs');
 })
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
